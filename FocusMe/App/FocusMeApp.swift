@@ -11,7 +11,10 @@ import SwiftUI
 struct FocusMeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let repository = MockReminderRepository()
+            let fetchUseCase = FetchRemindersUseCase(repository: repository)
+            let viewModel = ReminderListViewModel(fetchRemindersUseCase: fetchUseCase)
+            ReminderListView(viewModel: viewModel)
         }
     }
 }
