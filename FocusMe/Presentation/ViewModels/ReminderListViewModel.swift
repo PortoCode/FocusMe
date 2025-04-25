@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class ReminderListViewModel {
+final class ReminderListViewModel: ObservableObject {
     @Published var reminders: [Reminder] = []
     
     private let fetchRemindersUseCase: FetchRemindersUseCase
