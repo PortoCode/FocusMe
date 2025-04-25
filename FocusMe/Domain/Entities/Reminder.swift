@@ -1,0 +1,15 @@
+//
+//  Reminder.swift
+//  FocusMe
+//
+//  Created by Rodrigo Porto on 24/04/25.
+//
+
+import Foundation
+
+struct Reminder: Identifiable {
+    let id: UUID
+    var title: String
+    var date: Date
+    var isCompleted: Bool
+}
