@@ -7,19 +7,22 @@
 
 import UserNotifications
 
-final class NotificationManager {
+final class NotificationManager: NSObject {
     static let shared = NotificationManager()
     
-    private init() {}
+    private override init() {
+        super.init()
+        UNUserNotificationCenter.current().delegate = self
+    }
     
     func requestAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
-                print("Notification authorization error: \(error.localizedDescription)")
+                print("❌ Notification authorization error: \(error.localizedDescription)")
             } else if granted {
-                print("Notification permission granted.")
+                print("✅ Notification permission granted.")
             } else {
-                print("Notification permission denied.")
+                print("⚠️ Notification permission denied.")
             }
         }
     }
@@ -40,10 +43,20 @@ final class NotificationManager {
         
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("Failed to schedule notification: \(error.localizedDescription)")
+                print("❌ Failed to schedule notification: \(error.localizedDescription)")
             } else {
-                print("Notification scheduled for reminder: \(reminder.title)")
+                print("✅ Notification scheduled for reminder: \(reminder.title)")
             }
         }
+    }
+}
+
+extension NotificationManager: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound, .badge])
     }
 }
