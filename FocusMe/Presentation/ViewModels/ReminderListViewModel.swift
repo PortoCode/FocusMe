@@ -30,6 +30,7 @@ final class ReminderListViewModel: ObservableObject {
     func addReminder(title: String) {
         let newReminder = Reminder(id: UUID(), title: title, date: Date(), isCompleted: false)
         addReminderUseCase.execute(reminder: newReminder)
+        NotificationManager.shared.scheduleNotification(for: newReminder)
         loadReminders()
     }
 }

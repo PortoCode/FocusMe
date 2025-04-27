@@ -9,13 +9,13 @@ import SwiftUI
 
 @main
 struct FocusMeApp: App {
+    init() {
+        NotificationManager.shared.requestAuthorization()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            let repository = MockReminderRepository()
-            let fetchUseCase = FetchRemindersUseCase(repository: repository)
-            let addUseCase = AddReminderUseCase(repository: repository)
-            let viewModel = ReminderListViewModel(fetchRemindersUseCase: fetchUseCase, addReminderUseCase: addUseCase)
-            ReminderListView(viewModel: viewModel)
+            ReminderListFactory.make()
         }
     }
 }
