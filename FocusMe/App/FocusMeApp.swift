@@ -13,7 +13,8 @@ struct FocusMeApp: App {
         WindowGroup {
             let repository = MockReminderRepository()
             let fetchUseCase = FetchRemindersUseCase(repository: repository)
-            let viewModel = ReminderListViewModel(fetchRemindersUseCase: fetchUseCase)
+            let addUseCase = AddReminderUseCase(repository: repository)
+            let viewModel = ReminderListViewModel(fetchRemindersUseCase: fetchUseCase, addReminderUseCase: addUseCase)
             ReminderListView(viewModel: viewModel)
         }
     }

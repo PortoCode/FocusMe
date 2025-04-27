@@ -9,13 +9,15 @@ import Foundation
 import Combine
 
 final class ReminderListViewModel: ObservableObject {
-    @Published var reminders: [Reminder] = []
+    @Published private(set) var reminders: [Reminder] = []
     
     private let fetchRemindersUseCase: FetchRemindersUseCase
+    private let addReminderUseCase: AddReminderUseCase
     private var cancellables = Set<AnyCancellable>()
     
-    init(fetchRemindersUseCase: FetchRemindersUseCase) {
+    init(fetchRemindersUseCase: FetchRemindersUseCase, addReminderUseCase: AddReminderUseCase) {
         self.fetchRemindersUseCase = fetchRemindersUseCase
+        self.addReminderUseCase = addReminderUseCase
         loadReminders()
     }
     
@@ -23,5 +25,11 @@ final class ReminderListViewModel: ObservableObject {
         fetchRemindersUseCase.execute()
             .receive(on: DispatchQueue.main)
             .assign(to: &$reminders)
+    }
+    
+    func addReminder(title: String) {
+        let newReminder = Reminder(id: UUID(), title: title, date: Date(), isCompleted: false)
+        addReminderUseCase.execute(reminder: newReminder)
+        loadReminders()
     }
 }

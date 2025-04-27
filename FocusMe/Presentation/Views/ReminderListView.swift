@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReminderListView: View {
     @StateObject private var viewModel: ReminderListViewModel
+    @State private var showingAdd = false
     
     init(viewModel: ReminderListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -17,15 +18,21 @@ struct ReminderListView: View {
     var body: some View {
         NavigationStack {
             List(viewModel.reminders) { reminder in
-                VStack(alignment: .leading) {
-                    Text(reminder.title)
-                        .font(.headline)
-                    Text("\(reminder.date.formatted())")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                Text(reminder.title)
             }
             .navigationTitle("Reminders")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: { showingAdd = true }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $showingAdd) {
+                AddReminderView { title in
+                    viewModel.addReminder(title: title)
+                }
+            }
         }
     }
 }

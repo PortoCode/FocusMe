@@ -14,8 +14,7 @@ final class AddReminderUseCase {
         self.repository = repository
     }
     
-    func execute(title: String, date: Date) {
-        let reminder = Reminder(id: UUID(), title: title, date: date, isCompleted: false)
+    func execute(reminder: Reminder) {
         repository.addReminder(reminder)
     }
 }
