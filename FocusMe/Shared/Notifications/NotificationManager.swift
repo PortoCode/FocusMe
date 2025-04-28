@@ -49,6 +49,13 @@ final class NotificationManager: NSObject {
             }
         }
     }
+    
+    func cancelNotification(for reminder: Reminder) {
+        let id = reminder.id.uuidString
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
+        print("🔕 Notification canceled for reminder: \(reminder.title)")
+    }
 }
 
 extension NotificationManager: UNUserNotificationCenterDelegate {

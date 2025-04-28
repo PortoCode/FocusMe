@@ -17,11 +17,17 @@ struct ReminderListView: View {
     
     var body: some View {
         NavigationStack {
-            List(viewModel.reminders) { reminder in
-                Text(reminder.title)
+            List {
+                ForEach(viewModel.reminders) { reminder in
+                    Text(reminder.title)
+                }
+                .onDelete(perform: viewModel.removeReminder)
             }
             .navigationTitle("Reminders")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
+                }
                 ToolbarItem(placement: .primaryAction) {
                     Button(action: { showingAdd = true }) {
                         Image(systemName: "plus")

@@ -12,9 +12,11 @@ enum ReminderListFactory {
         let repository = MockReminderRepository()
         let fetchUseCase = FetchRemindersUseCase(repository: repository)
         let addUseCase = AddReminderUseCase(repository: repository)
+        let removeUseCase = RemoveReminderUseCase(repository: repository)
         let viewModel = ReminderListViewModel(
             fetchRemindersUseCase: fetchUseCase,
-            addReminderUseCase: addUseCase
+            addReminderUseCase: addUseCase,
+            removeReminderUseCase: removeUseCase
         )
         return ReminderListView(viewModel: viewModel)
     }
