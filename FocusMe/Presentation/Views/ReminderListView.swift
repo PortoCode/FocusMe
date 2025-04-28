@@ -35,8 +35,8 @@ struct ReminderListView: View {
                 }
             }
             .sheet(isPresented: $showingAdd) {
-                AddReminderView { title in
-                    viewModel.addReminder(title: title)
+                AddReminderView { title, dueDate in
+                    viewModel.addReminder(title: title, dueDate: dueDate)
                 }
             }
         }

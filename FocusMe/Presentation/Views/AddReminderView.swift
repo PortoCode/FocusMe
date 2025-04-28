@@ -10,18 +10,22 @@ import SwiftUI
 struct AddReminderView: View {
     @Environment(\.dismiss) var dismiss
     @State private var title: String = ""
-    let onSave: (String) -> Void
+    @State private var dueDate: Date = Date()
+    let onSave: (String, Date) -> Void
     
     var body: some View {
         NavigationStack {
             Form {
                 TextField("Title", text: $title)
+                
+                DatePicker("Due Date", selection: $dueDate, displayedComponents: [.date, .hourAndMinute])
+                    .datePickerStyle(.wheel)
             }
             .navigationTitle("New Reminder")
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        onSave(title)
+                        onSave(title, dueDate)
                         dismiss()
                     }
                     .disabled(title.isEmpty)
