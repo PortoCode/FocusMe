@@ -9,7 +9,7 @@ import Foundation
 
 enum ReminderListFactory {
     static func make() -> ReminderListView {
-        let repository = MockReminderRepository()
+        let repository = CoreDataReminderRepository()
         let fetchUseCase = FetchRemindersUseCase(repository: repository)
         let addUseCase = AddReminderUseCase(repository: repository)
         let removeUseCase = RemoveReminderUseCase(repository: repository)
