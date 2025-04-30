@@ -47,11 +47,8 @@ final class CoreDataReminderRepository: ReminderRepository {
         manager.deleteReminder(entity)
     }
     
-    func markReminderAsViewed(_ reminder: Reminder) {
-        guard let entity = manager.fetchAllReminders().first(where: { $0.id == reminder.id }) else {
-            return
-        }
-        manager.updateReminder(entity, isViewed: true)
+    func updateReminder(_ reminder: Reminder) {
+        manager.updateReminder(with: reminder)
     }
     
     func countUnviewedReminders() -> Int {

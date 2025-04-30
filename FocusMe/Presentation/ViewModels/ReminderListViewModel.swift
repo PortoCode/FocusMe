@@ -14,12 +14,17 @@ final class ReminderListViewModel: ObservableObject {
     private let fetchRemindersUseCase: FetchRemindersUseCase
     private let addReminderUseCase: AddReminderUseCase
     private let removeReminderUseCase: RemoveReminderUseCase
+    private let updateReminderUseCase: UpdateReminderUseCase
     private var cancellables = Set<AnyCancellable>()
     
-    init(fetchRemindersUseCase: FetchRemindersUseCase, addReminderUseCase: AddReminderUseCase, removeReminderUseCase: RemoveReminderUseCase) {
+    init(fetchRemindersUseCase: FetchRemindersUseCase,
+         addReminderUseCase: AddReminderUseCase,
+         removeReminderUseCase: RemoveReminderUseCase,
+         updateReminderUseCase: UpdateReminderUseCase) {
         self.fetchRemindersUseCase = fetchRemindersUseCase
         self.addReminderUseCase = addReminderUseCase
         self.removeReminderUseCase = removeReminderUseCase
+        self.updateReminderUseCase = updateReminderUseCase
         loadReminders()
     }
     
@@ -42,6 +47,13 @@ final class ReminderListViewModel: ObservableObject {
             removeReminderUseCase.execute(reminder: reminder)
             NotificationManager.shared.cancelNotification(for: reminder)
         }
+        loadReminders()
+    }
+    
+    func toggleCompleted(for reminder: Reminder) {
+        var reminderUpdated = reminder
+        reminderUpdated.isCompleted.toggle()
+        updateReminderUseCase.execute(reminder: reminderUpdated)
         loadReminders()
     }
 }

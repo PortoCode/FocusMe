@@ -19,7 +19,16 @@ struct ReminderListView: View {
         NavigationStack {
             List {
                 ForEach(viewModel.reminders) { reminder in
-                    Text(reminder.title)
+                    HStack {
+                        Image(systemName: reminder.isCompleted ? "checkmark.circle.fill" : "circle")
+                            .foregroundStyle(reminder.isCompleted ? .green : .gray)
+                        Text(reminder.title)
+                            .strikethrough(reminder.isCompleted)
+                            .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                    }
+                    .onTapGesture {
+                        viewModel.toggleCompleted(for: reminder)
+                    }
                 }
                 .onDelete(perform: viewModel.removeReminder)
             }
