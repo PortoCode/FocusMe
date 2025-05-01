@@ -13,12 +13,14 @@ struct EditReminderView: View {
     @State private var date: Date
     let reminder: Reminder
     let onSave: (Reminder) -> Void
+    let onDelete: (Reminder) -> Void
     
-    init(reminder: Reminder, onSave: @escaping (Reminder) -> Void) {
+    init(reminder: Reminder, onSave: @escaping (Reminder) -> Void, onDelete: @escaping (Reminder) -> Void) {
         self.reminder = reminder
         self._title = State(initialValue: reminder.title)
         self._date = State(initialValue: reminder.date)
         self.onSave = onSave
+        self.onDelete = onDelete
     }
     
     var body: some View {
@@ -26,6 +28,15 @@ struct EditReminderView: View {
             Form {
                 TextField("Title", text: $title)
                 DatePicker("Due Date", selection: $date)
+                
+                Section {
+                    Button(role: .destructive) {
+                        onDelete(reminder)
+                        dismiss()
+                    } label: {
+                        Label("Delete Reminder", systemImage: "trash")
+                    }
+                }
             }
             .navigationTitle("Edit Reminder")
             .toolbar {

@@ -56,9 +56,15 @@ struct ReminderListView: View {
                 viewModel.selectedReminder = nil
             }) {
                 if let selected = viewModel.selectedReminder {
-                    EditReminderView(reminder: selected) { updatedReminder in
-                        viewModel.updateReminder(updatedReminder)
-                    }
+                    EditReminderView(
+                        reminder: selected,
+                        onSave: { updatedReminder in
+                            viewModel.updateReminder(updatedReminder)
+                        },
+                        onDelete: { reminderToDelete in
+                            viewModel.removeReminder(reminderToDelete)
+                        }
+                    )
                 } else {
                     AddReminderView { title, dueDate in
                         viewModel.addReminder(title: title, dueDate: dueDate)

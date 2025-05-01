@@ -51,6 +51,12 @@ final class ReminderListViewModel: ObservableObject {
         loadReminders()
     }
     
+    func removeReminder(_ reminder: Reminder) {
+        removeReminderUseCase.execute(reminder: reminder)
+        NotificationManager.shared.cancelNotification(for: reminder)
+        loadReminders()
+    }
+    
     func toggleCompleted(for reminder: Reminder) {
         var reminderUpdated = reminder
         reminderUpdated.isCompleted.toggle()
