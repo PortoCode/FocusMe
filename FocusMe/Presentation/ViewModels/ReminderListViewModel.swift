@@ -10,6 +10,7 @@ import Combine
 
 final class ReminderListViewModel: ObservableObject {
     @Published private(set) var reminders: [Reminder] = []
+    @Published var selectedReminder: Reminder?
     
     private let fetchRemindersUseCase: FetchRemindersUseCase
     private let addReminderUseCase: AddReminderUseCase
@@ -54,6 +55,12 @@ final class ReminderListViewModel: ObservableObject {
         var reminderUpdated = reminder
         reminderUpdated.isCompleted.toggle()
         updateReminderUseCase.execute(reminder: reminderUpdated)
+        loadReminders()
+    }
+    
+    func updateReminder(_ reminder: Reminder) {
+        updateReminderUseCase.execute(reminder: reminder)
+        NotificationManager.shared.scheduleNotification(for: reminder)
         loadReminders()
     }
 }

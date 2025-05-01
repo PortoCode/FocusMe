@@ -36,19 +36,16 @@ final class CoreDataManager {
         }
     }
     
-    func updateReminder(with reminder: Reminder, isViewed: Bool? = nil) {
+    func deleteReminder(_ reminder: ReminderEntity) {
+        context.delete(reminder)
+        saveContext()
+    }
+    
+    func updateReminder(with reminder: Reminder) {
         guard let entity = fetchAllReminders().first(where: { $0.id == reminder.id }) else { return }
         entity.title = reminder.title
         entity.dueDate = reminder.date
         entity.isCompleted = reminder.isCompleted
-        if let isViewed = isViewed {
-            entity.isViewed = isViewed
-        }
-        saveContext()
-    }
-    
-    func deleteReminder(_ reminder: ReminderEntity) {
-        context.delete(reminder)
         saveContext()
     }
     

@@ -17,9 +17,7 @@ struct AddReminderView: View {
         NavigationStack {
             Form {
                 TextField("Title", text: $title)
-                
-                DatePicker("Due Date", selection: $dueDate, displayedComponents: [.date, .hourAndMinute])
-                    .datePickerStyle(.wheel)
+                DatePicker("Due Date", selection: $dueDate)
             }
             .navigationTitle("New Reminder")
             .toolbar {

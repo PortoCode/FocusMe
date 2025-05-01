@@ -22,9 +22,21 @@ struct ReminderListView: View {
                     HStack {
                         Image(systemName: reminder.isCompleted ? "checkmark.circle.fill" : "circle")
                             .foregroundStyle(reminder.isCompleted ? .green : .gray)
+                        
                         Text(reminder.title)
                             .strikethrough(reminder.isCompleted)
                             .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            viewModel.selectedReminder = reminder
+                            showingAdd = true
+                        }) {
+                            Image(systemName: "pencil")
+                                .foregroundStyle(.blue)
+                        }
+                        .buttonStyle(.plain)
                     }
                     .onTapGesture {
                         viewModel.toggleCompleted(for: reminder)
@@ -34,20 +46,26 @@ struct ReminderListView: View {
             }
             .navigationTitle("Reminders")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    EditButton()
-                }
                 ToolbarItem(placement: .primaryAction) {
                     Button(action: { showingAdd = true }) {
                         Image(systemName: "plus")
                     }
                 }
             }
-            .sheet(isPresented: $showingAdd) {
-                AddReminderView { title, dueDate in
-                    viewModel.addReminder(title: title, dueDate: dueDate)
+            .sheet(isPresented: $showingAdd, onDismiss: {
+                viewModel.selectedReminder = nil
+            }) {
+                if let selected = viewModel.selectedReminder {
+                    EditReminderView(reminder: selected) { updatedReminder in
+                        viewModel.updateReminder(updatedReminder)
+                    }
+                } else {
+                    AddReminderView { title, dueDate in
+                        viewModel.addReminder(title: title, dueDate: dueDate)
+                    }
                 }
             }
+            
         }
     }
 }
