@@ -21,6 +21,7 @@ final class CoreDataReminderRepository: ReminderRepository {
             Reminder(
                 id: entity.id ?? UUID(),
                 title: entity.title ?? "",
+                description: entity.reminderDescription ?? "",
                 date: entity.dueDate ?? Date(),
                 isCompleted: entity.isCompleted
             )
@@ -34,6 +35,7 @@ final class CoreDataReminderRepository: ReminderRepository {
         manager.saveReminder(
             id: reminder.id,
             title: reminder.title,
+            description: reminder.description,
             dueDate: reminder.date,
             isCompleted: reminder.isCompleted,
             isViewed: true

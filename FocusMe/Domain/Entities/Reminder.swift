@@ -10,6 +10,7 @@ import Foundation
 struct Reminder: Identifiable {
     let id: UUID
     var title: String
+    var description: String
     var date: Date
     var isCompleted: Bool
 }

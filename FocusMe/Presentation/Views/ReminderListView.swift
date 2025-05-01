@@ -23,9 +23,18 @@ struct ReminderListView: View {
                         Image(systemName: reminder.isCompleted ? "checkmark.circle.fill" : "circle")
                             .foregroundStyle(reminder.isCompleted ? .green : .gray)
                         
-                        Text(reminder.title)
-                            .strikethrough(reminder.isCompleted)
-                            .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                        VStack(alignment: .leading) {
+                            Text(reminder.title)
+                                .strikethrough(reminder.isCompleted)
+                                .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                            if !reminder.description.isEmpty {
+                                Text(reminder.description)
+                                    .lineLimit(1)
+                                    .font(.subheadline)
+                                    .strikethrough(reminder.isCompleted)
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                         
                         Spacer()
                         
@@ -66,12 +75,11 @@ struct ReminderListView: View {
                         }
                     )
                 } else {
-                    AddReminderView { title, dueDate in
-                        viewModel.addReminder(title: title, dueDate: dueDate)
+                    AddReminderView { title, description, dueDate in
+                        viewModel.addReminder(title: title, description: description, dueDate: dueDate)
                     }
                 }
             }
-            
         }
     }
 }

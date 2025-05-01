@@ -16,10 +16,11 @@ final class CoreDataManager {
         self.context = context
     }
     
-    func saveReminder(id: UUID, title: String, dueDate: Date, isCompleted: Bool = false, isViewed: Bool = false) {
+    func saveReminder(id: UUID, title: String, description: String, dueDate: Date, isCompleted: Bool = false, isViewed: Bool = false) {
         let reminder = ReminderEntity(context: context)
         reminder.id = id
         reminder.title = title
+        reminder.reminderDescription = description
         reminder.dueDate = dueDate
         reminder.isCompleted = isCompleted
         reminder.isViewed = isViewed
@@ -44,6 +45,7 @@ final class CoreDataManager {
     func updateReminder(with reminder: Reminder) {
         guard let entity = fetchAllReminders().first(where: { $0.id == reminder.id }) else { return }
         entity.title = reminder.title
+        entity.reminderDescription = reminder.description
         entity.dueDate = reminder.date
         entity.isCompleted = reminder.isCompleted
         saveContext()
