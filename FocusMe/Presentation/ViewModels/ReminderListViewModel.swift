@@ -57,9 +57,9 @@ final class ReminderListViewModel: ObservableObject {
         loadReminders()
     }
     
-    func toggleCompleted(for reminder: Reminder) {
+    func setCompleted(for reminder: Reminder, to newValue: Bool) {
         var reminderUpdated = reminder
-        reminderUpdated.isCompleted.toggle()
+        reminderUpdated.isCompleted = newValue
         updateReminderUseCase.execute(reminder: reminderUpdated)
         loadReminders()
     }

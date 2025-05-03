@@ -20,19 +20,23 @@ struct ReminderListView: View {
             List {
                 ForEach(viewModel.reminders) { reminder in
                     HStack {
-                        Image(systemName: reminder.isCompleted ? "checkmark.circle.fill" : "circle")
-                            .foregroundStyle(reminder.isCompleted ? .green : .gray)
-                        
-                        VStack(alignment: .leading) {
-                            Text(reminder.date.formattedDateTime)
-                                .font(.headline)
-                                .strikethrough(reminder.isCompleted)
-                                .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
-                            
-                            Text(reminder.title)
-                                .font(.subheadline)
-                                .strikethrough(reminder.isCompleted)
-                                .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                        Toggle(isOn: Binding<Bool>(
+                            get: { reminder.isCompleted },
+                            set: { newValue in
+                                viewModel.setCompleted(for: reminder, to: newValue)
+                            }
+                        )) {
+                            VStack(alignment: .leading) {
+                                Text(reminder.title)
+                                    .font(.subheadline)
+                                    .strikethrough(reminder.isCompleted)
+                                    .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                                
+                                Text(reminder.date.formattedDateTime)
+                                    .font(.caption)
+                                    .strikethrough(reminder.isCompleted)
+                                    .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                            }
                         }
                         
                         Spacer()
@@ -45,9 +49,6 @@ struct ReminderListView: View {
                                 .foregroundStyle(.blue)
                         }
                         .buttonStyle(.plain)
-                    }
-                    .onTapGesture {
-                        viewModel.toggleCompleted(for: reminder)
                     }
                 }
                 .onDelete(perform: viewModel.removeReminder)
