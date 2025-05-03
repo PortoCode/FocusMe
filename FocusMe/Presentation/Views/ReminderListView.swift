@@ -24,6 +24,7 @@ struct ReminderListView: View {
                             get: { reminder.isCompleted },
                             set: { newValue in
                                 viewModel.setCompleted(for: reminder, to: newValue)
+                                triggerHaptic()
                             }
                         )) {
                             VStack(alignment: .leading) {
@@ -81,5 +82,11 @@ struct ReminderListView: View {
                 }
             }
         }
+    }
+    
+    private func triggerHaptic() {
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.prepare()
+        generator.impactOccurred()
     }
 }
