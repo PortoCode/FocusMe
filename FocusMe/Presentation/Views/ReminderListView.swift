@@ -24,16 +24,15 @@ struct ReminderListView: View {
                             .foregroundStyle(reminder.isCompleted ? .green : .gray)
                         
                         VStack(alignment: .leading) {
-                            Text(reminder.title)
+                            Text(reminder.date.formattedDateTime)
+                                .font(.headline)
                                 .strikethrough(reminder.isCompleted)
                                 .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
-                            if !reminder.description.isEmpty {
-                                Text(reminder.description)
-                                    .lineLimit(1)
-                                    .font(.subheadline)
-                                    .strikethrough(reminder.isCompleted)
-                                    .foregroundStyle(.secondary)
-                            }
+                            
+                            Text(reminder.title)
+                                .font(.subheadline)
+                                .strikethrough(reminder.isCompleted)
+                                .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
                         }
                         
                         Spacer()
