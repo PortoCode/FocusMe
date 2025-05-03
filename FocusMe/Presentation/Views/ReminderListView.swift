@@ -39,17 +39,11 @@ struct ReminderListView: View {
                                     .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
                             }
                         }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            viewModel.selectedReminder = reminder
-                            showingAdd = true
-                        }) {
-                            Image(systemName: "pencil")
-                                .foregroundStyle(.blue)
-                        }
-                        .buttonStyle(.plain)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        viewModel.selectedReminder = reminder
+                        showingAdd = true
                     }
                 }
                 .onDelete(perform: viewModel.removeReminder)
