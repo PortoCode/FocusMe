@@ -19,32 +19,17 @@ struct ReminderListView: View {
         NavigationStack {
             List {
                 ForEach(viewModel.reminders) { reminder in
-                    HStack {
-                        Toggle(isOn: Binding<Bool>(
-                            get: { reminder.isCompleted },
-                            set: { newValue in
-                                viewModel.setCompleted(for: reminder, to: newValue)
-                                triggerHaptic()
-                            }
-                        )) {
-                            VStack(alignment: .leading) {
-                                Text(reminder.title)
-                                    .font(.subheadline)
-                                    .strikethrough(reminder.isCompleted)
-                                    .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
-                                
-                                Text(reminder.date.formattedDateTime)
-                                    .font(.caption)
-                                    .strikethrough(reminder.isCompleted)
-                                    .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
-                            }
+                    ReminderRow(
+                        reminder: reminder,
+                        onToggle: { newValue in
+                            viewModel.setCompleted(for: reminder, to: newValue)
+                            triggerHaptic()
+                        },
+                        onSelect: {
+                            viewModel.selectedReminder = reminder
+                            showingAdd = true
                         }
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        viewModel.selectedReminder = reminder
-                        showingAdd = true
-                    }
+                    )
                 }
                 .onDelete(perform: viewModel.removeReminder)
             }
