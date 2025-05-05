@@ -9,10 +9,11 @@ import SwiftUI
 
 struct ReminderRow: View {
     let reminder: Reminder
+    let isHighlighted: Bool
     let onToggle: (Bool) -> Void
     let onSelect: () -> Void
     
-    @State private var isPressed = false
+    @State private var isPressing = false
     
     var body: some View {
         HStack {
@@ -35,10 +36,10 @@ struct ReminderRow: View {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { _ in
-                        isPressed = true
+                        isPressing = true
                     }
                     .onEnded { _ in
-                        isPressed = false
+                        isPressing = false
                         onSelect()
                     }
             )
@@ -50,6 +51,6 @@ struct ReminderRow: View {
             .labelsHidden()
         }
         .padding(.vertical, 4)
-        .listRowBackground(isPressed ? Color.gray.opacity(0.2) : nil)
+        .listRowBackground(isPressing || isHighlighted ? Color.gray.opacity(0.2) : nil)
     }
 }

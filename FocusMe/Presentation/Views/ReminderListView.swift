@@ -10,6 +10,7 @@ import SwiftUI
 struct ReminderListView: View {
     @StateObject private var viewModel: ReminderListViewModel
     @State private var showingAdd = false
+    @State private var pressedReminderId: UUID? = nil
     
     init(viewModel: ReminderListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -21,11 +22,13 @@ struct ReminderListView: View {
                 ForEach(viewModel.reminders) { reminder in
                     ReminderRow(
                         reminder: reminder,
+                        isHighlighted: pressedReminderId == reminder.id,
                         onToggle: { newValue in
                             viewModel.setCompleted(for: reminder, to: newValue)
                             triggerHaptic()
                         },
                         onSelect: {
+                            pressedReminderId = reminder.id
                             viewModel.selectedReminder = reminder
                             showingAdd = true
                         }
@@ -43,6 +46,7 @@ struct ReminderListView: View {
             }
             .sheet(isPresented: $showingAdd, onDismiss: {
                 viewModel.selectedReminder = nil
+                pressedReminderId = nil
             }) {
                 if let selected = viewModel.selectedReminder {
                     EditReminderView(
@@ -54,6 +58,11 @@ struct ReminderListView: View {
                             viewModel.removeReminder(reminderToDelete)
                         }
                     )
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            pressedReminderId = nil
+                        }
+                    }
                 } else {
                     AddReminderView { title, description, dueDate in
                         viewModel.addReminder(title: title, description: description, dueDate: dueDate)
