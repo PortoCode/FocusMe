@@ -9,8 +9,7 @@ import SwiftUI
 
 struct ReminderListView: View {
     @StateObject private var viewModel: ReminderListViewModel
-    @State private var showingAdd = false
-    @State private var pressedReminderId: UUID? = nil
+    @State private var sheetPresentationState = SheetPresentationState()
     
     init(viewModel: ReminderListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -18,57 +17,85 @@ struct ReminderListView: View {
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(viewModel.reminders) { reminder in
-                    ReminderRow(
-                        reminder: reminder,
-                        isHighlighted: pressedReminderId == reminder.id,
-                        onToggle: { newValue in
-                            viewModel.setCompleted(for: reminder, to: newValue)
-                            triggerHaptic()
-                        },
-                        onSelect: {
-                            pressedReminderId = reminder.id
-                            viewModel.selectedReminder = reminder
-                            showingAdd = true
-                        }
-                    )
-                }
-                .onDelete(perform: viewModel.removeReminder)
-            }
-            .navigationTitle("Reminders")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button(action: { showingAdd = true }) {
-                        Image(systemName: "plus")
+            reminderList
+                .navigationTitle("Reminders")
+                .toolbar {
+                    ToolbarItem(placement: .primaryAction) {
+                        addButton
                     }
                 }
-            }
-            .sheet(isPresented: $showingAdd, onDismiss: {
-                viewModel.selectedReminder = nil
-                pressedReminderId = nil
-            }) {
-                if let selected = viewModel.selectedReminder {
-                    EditReminderView(
-                        reminder: selected,
-                        onSave: { updatedReminder in
-                            viewModel.updateReminder(updatedReminder)
-                        },
-                        onDelete: { reminderToDelete in
-                            viewModel.removeReminder(reminderToDelete)
-                        }
-                    )
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            pressedReminderId = nil
-                        }
-                    }
-                } else {
-                    AddReminderView { title, description, dueDate in
-                        viewModel.addReminder(title: title, description: description, dueDate: dueDate)
-                    }
+                .sheet(isPresented: $sheetPresentationState.isPresented, onDismiss: handleSheetDismiss) {
+                    sheetContent
                 }
+        }
+    }
+    
+    private var reminderList: some View {
+        List {
+            ForEach(viewModel.reminders) { reminder in
+                ReminderRow(
+                    reminder: reminder,
+                    isHighlighted: sheetPresentationState.pressedReminderId == reminder.id,
+                    onToggle: { newValue in
+                        handleToggle(for: reminder, to: newValue)
+                    },
+                    onSelect: {
+                        handleReminderSelection(reminder)
+                    }
+                )
             }
+            .onDelete(perform: viewModel.removeReminder)
+        }
+    }
+    
+    private var addButton: some View {
+        Button(action: presentAddSheet) {
+            Image(systemName: "plus")
+        }
+    }
+    
+    @ViewBuilder
+    private var sheetContent: some View {
+        if let selected = viewModel.selectedReminder {
+            EditReminderView(
+                reminder: selected,
+                onSave: viewModel.updateReminder,
+                onDelete: viewModel.removeReminder
+            )
+            .onAppear {
+                scheduleHighlightRemoval()
+            }
+        } else {
+            AddReminderView { title, description, dueDate in
+                viewModel.addReminder(title: title, description: description, dueDate: dueDate)
+            }
+        }
+    }
+    
+    private func handleToggle(for reminder: Reminder, to newValue: Bool) {
+        viewModel.setCompleted(for: reminder, to: newValue)
+        triggerHaptic()
+    }
+    
+    private func handleReminderSelection(_ reminder: Reminder) {
+        sheetPresentationState.pressedReminderId = reminder.id
+        viewModel.selectedReminder = reminder
+        sheetPresentationState.isPresented = true
+    }
+    
+    private func handleSheetDismiss() {
+        viewModel.selectedReminder = nil
+        sheetPresentationState.pressedReminderId = nil
+    }
+    
+    private func presentAddSheet() {
+        viewModel.selectedReminder = nil
+        sheetPresentationState.isPresented = true
+    }
+    
+    private func scheduleHighlightRemoval() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            sheetPresentationState.pressedReminderId = nil
         }
     }
     
@@ -77,4 +104,9 @@ struct ReminderListView: View {
         generator.prepare()
         generator.impactOccurred()
     }
+}
+
+struct SheetPresentationState {
+    var isPresented = false
+    var pressedReminderId: UUID? = nil
 }
