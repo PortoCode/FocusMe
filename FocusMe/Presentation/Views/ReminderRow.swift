@@ -13,7 +13,13 @@ struct ReminderRow: View {
     let onToggle: (Bool) -> Void
     let onSelect: () -> Void
     
-    @State private var isPressing = false
+    enum TouchState {
+        case idle
+        case pressing
+        case draggedOutside
+    }
+    
+    @State private var touchState: TouchState = .idle
     
     var body: some View {
         HStack {
@@ -35,12 +41,33 @@ struct ReminderRow: View {
             .contentShape(Rectangle())
             .gesture(
                 DragGesture(minimumDistance: 0)
-                    .onChanged { _ in
-                        isPressing = true
+                    .onChanged { value in
+                        if touchState == .draggedOutside {
+                            return
+                        }
+                        
+                        let displacement = CGSize(
+                            width: value.location.x - value.startLocation.x,
+                            height: value.location.y - value.startLocation.y
+                        )
+                        
+                        let distance = sqrt(displacement.width * displacement.width +
+                                            displacement.height * displacement.height)
+                        
+                        let threshold: CGFloat = 30
+                        
+                        if distance > threshold {
+                            touchState = .draggedOutside
+                        } else {
+                            touchState = .pressing
+                        }
                     }
                     .onEnded { _ in
-                        isPressing = false
-                        onSelect()
+                        if touchState == .pressing {
+                            onSelect()
+                        }
+                        
+                        touchState = .idle
                     }
             )
             
@@ -51,6 +78,11 @@ struct ReminderRow: View {
             .labelsHidden()
         }
         .padding(.vertical, 4)
-        .listRowBackground(isPressing || isHighlighted ? Color.gray.opacity(0.2) : nil)
+        .listRowBackground(shouldHighlight ? Color.gray.opacity(0.2) : nil)
+        .animation(.easeOut(duration: 0.1), value: shouldHighlight)
+    }
+    
+    private var shouldHighlight: Bool {
+        isHighlighted || touchState == .pressing
     }
 }
