@@ -12,21 +12,36 @@ struct ReminderRow: View {
     let onToggle: (Bool) -> Void
     let onSelect: () -> Void
     
+    @State private var isPressed = false
+    
     var body: some View {
         HStack {
-            VStack(alignment: .leading) {
-                Text(reminder.title)
-                    .font(.subheadline)
-                    .strikethrough(reminder.isCompleted)
-                    .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(reminder.title)
+                        .font(.subheadline)
+                        .strikethrough(reminder.isCompleted)
+                        .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                    
+                    Text(reminder.date.formattedDateTime)
+                        .font(.caption)
+                        .strikethrough(reminder.isCompleted)
+                        .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                }
                 
-                Text(reminder.date.formattedDateTime)
-                    .font(.caption)
-                    .strikethrough(reminder.isCompleted)
-                    .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                Spacer()
             }
-            
-            Spacer()
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in
+                        isPressed = true
+                    }
+                    .onEnded { _ in
+                        isPressed = false
+                        onSelect()
+                    }
+            )
             
             Toggle("", isOn: Binding(
                 get: { reminder.isCompleted },
@@ -35,7 +50,6 @@ struct ReminderRow: View {
             .labelsHidden()
         }
         .padding(.vertical, 4)
-        .contentShape(Rectangle())
-        .onTapGesture { onSelect() }
+        .listRowBackground(isPressed ? Color.gray.opacity(0.2) : nil)
     }
 }
