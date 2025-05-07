@@ -15,7 +15,7 @@ struct FocusMeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ReminderListFactory.make()
+            MainTabView()
         }
     }
 }
