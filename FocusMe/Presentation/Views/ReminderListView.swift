@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct ReminderListView: View {
-    @StateObject private var viewModel: ReminderListViewModel
+    @EnvironmentObject private var viewModel: ReminderListViewModel
     @State private var sheetPresentationState = SheetPresentationState()
-    
-    init(viewModel: ReminderListViewModel) {
-        _viewModel = StateObject(wrappedValue: viewModel)
-    }
     
     var body: some View {
         NavigationStack {

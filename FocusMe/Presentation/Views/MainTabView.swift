@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @StateObject private var viewModel = ReminderListFactory.makeViewModel()
+    
     var body: some View {
         TabView {
-            ReminderListFactory.make()
+            ReminderListView()
                 .tabItem {
                     Label("Reminders", systemImage: "list.bullet")
                 }
@@ -20,6 +22,6 @@ struct MainTabView: View {
                     Label("Calendar", systemImage: "calendar")
                 }
         }
+        .environmentObject(viewModel)
     }
 }
-
