@@ -17,6 +17,10 @@ struct CalendarView: View {
                 .datePickerStyle(.graphical)
                 .padding()
             
+            Text("📆 \(remindersThisWeek.count) reminders this week")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            
             Text("Reminders for \(formattedDate(selectedDate))")
                 .font(.headline)
                 .padding(.top)
@@ -28,8 +32,7 @@ struct CalendarView: View {
                     onToggle: { newValue in
                         viewModel.setCompleted(for: reminder, to: newValue)
                     },
-                    onSelect: {
-                    }
+                    onSelect: {}
                 )
             }
         }
@@ -41,7 +44,15 @@ struct CalendarView: View {
             Calendar.current.isDate($0.date, inSameDayAs: selectedDate)
         }
     }
-
+    
+    private var remindersThisWeek: [Reminder] {
+        let calendar = Calendar.current
+        guard let weekRange = calendar.dateInterval(of: .weekOfMonth, for: selectedDate) else {
+            return []
+        }
+        return viewModel.reminders.filter { weekRange.contains($0.date) }
+    }
+    
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
