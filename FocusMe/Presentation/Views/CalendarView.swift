@@ -16,6 +16,12 @@ struct CalendarView: View {
             DatePicker("Select a date", selection: $selectedDate, displayedComponents: [.date])
                 .datePickerStyle(.graphical)
                 .padding()
+                .onChange(of: selectedDate) {
+                    if hasReminder(on: selectedDate) {
+                        let generator = UIImpactFeedbackGenerator(style: .medium)
+                        generator.impactOccurred()
+                    }
+                }
             
             Text("📆 \(remindersThisWeek.count) reminders this week")
                 .font(.caption)
@@ -51,6 +57,12 @@ struct CalendarView: View {
             return []
         }
         return viewModel.reminders.filter { weekRange.contains($0.date) }
+    }
+    
+    private func hasReminder(on date: Date) -> Bool {
+        viewModel.reminders.contains {
+            Calendar.current.isDate($0.date, inSameDayAs: date)
+        }
     }
     
     private func formattedDate(_ date: Date) -> String {
