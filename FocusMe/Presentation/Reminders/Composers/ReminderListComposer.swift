@@ -1,5 +1,5 @@
 //
-//  ReminderListFactory.swift
+//  ReminderListComposer.swift
 //  FocusMe
 //
 //  Created by Rodrigo Porto on 27/04/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ReminderListFactory {
+enum ReminderListComposer {
     static func makeViewModel() -> ReminderListViewModel {
         let repository = CoreDataReminderRepository()
         let fetchUseCase = FetchRemindersUseCase(repository: repository)

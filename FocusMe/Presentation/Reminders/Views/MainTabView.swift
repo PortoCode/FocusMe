@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @StateObject private var viewModel = ReminderListFactory.makeViewModel()
+    @StateObject private var viewModel = ReminderListComposer.makeViewModel()
     
     var body: some View {
         TabView {
