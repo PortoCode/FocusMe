@@ -15,6 +15,7 @@ enum TabSelection: Hashable {
 
 struct MainTabView: View {
     @StateObject private var viewModel = ReminderListComposer.makeViewModel()
+    @EnvironmentObject private var appSettings: AppSettings
     @State private var selectedTab: TabSelection = .reminders
     
     var body: some View {
@@ -34,7 +35,7 @@ struct MainTabView: View {
             Tab("Settings",
                 systemImage: "gear",
                 value: TabSelection.settings) {
-                SettingsView()
+                SettingsView(appSettings: appSettings)
             }
         }
         .environmentObject(viewModel)

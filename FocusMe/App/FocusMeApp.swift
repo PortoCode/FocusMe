@@ -9,6 +9,8 @@ import SwiftUI
 
 @main
 struct FocusMeApp: App {
+    @StateObject private var settings = AppSettings()
+    
     init() {
         NotificationManager.shared.requestAuthorization()
     }
@@ -16,6 +18,8 @@ struct FocusMeApp: App {
     var body: some Scene {
         WindowGroup {
             MainTabView()
+                .environmentObject(settings)
+                .preferredColorScheme(settings.selectedTheme.colorScheme)
         }
     }
 }
