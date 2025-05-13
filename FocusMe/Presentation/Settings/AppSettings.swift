@@ -7,11 +7,32 @@
 
 import SwiftUI
 
-class AppSettings: ObservableObject {
-    @Published var selectedTheme: AppTheme = .system
+final class AppSettings: ObservableObject {
+    @Published var selectedTheme: AppTheme {
+        didSet {
+            saveTheme()
+        }
+    }
+    
+    private let themeKey = "selectedAppTheme"
+    
+    init() {
+        if let data = UserDefaults.standard.data(forKey: themeKey),
+           let savedTheme = try? JSONDecoder().decode(AppTheme.self, from: data) {
+            self.selectedTheme = savedTheme
+        } else {
+            self.selectedTheme = .system
+        }
+    }
+    
+    private func saveTheme() {
+        if let data = try? JSONEncoder().encode(selectedTheme) {
+            UserDefaults.standard.set(data, forKey: themeKey)
+        }
+    }
 }
 
-enum AppTheme: String, CaseIterable, Identifiable {
+enum AppTheme: String, CaseIterable, Identifiable, Codable {
     case system
     case light
     case dark
