@@ -7,25 +7,35 @@
 
 import SwiftUI
 
+enum TabSelection: Hashable {
+    case reminders
+    case calendar
+    case settings
+}
+
 struct MainTabView: View {
     @StateObject private var viewModel = ReminderListComposer.makeViewModel()
+    @State private var selectedTab: TabSelection = .reminders
     
     var body: some View {
-        TabView {
-            ReminderListView()
-                .tabItem {
-                    Label("Reminders", systemImage: "list.bullet")
-                }
+        TabView(selection: $selectedTab) {
+            Tab("Reminders",
+                systemImage: "list.bullet",
+                value: TabSelection.reminders) {
+                ReminderListView()
+            }
             
-            CalendarView()
-                .tabItem {
-                    Label("Calendar", systemImage: "calendar")
-                }
+            Tab("Calendar",
+                systemImage: "calendar",
+                value: TabSelection.calendar) {
+                CalendarView()
+            }
             
-            SettingsView()
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
-                }
+            Tab("Settings",
+                systemImage: "gear",
+                value: TabSelection.settings) {
+                SettingsView()
+            }
         }
         .environmentObject(viewModel)
     }
