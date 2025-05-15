@@ -16,8 +16,22 @@ final class SettingsViewModel: ObservableObject {
     
     private(set) var appSettings: AppSettings
     
+    let appVersion: String = "1.0.0"
+    
     init(appSettings: AppSettings) {
         self.appSettings = appSettings
         self.selectedTheme = appSettings.selectedTheme
+    }
+}
+
+enum SettingsSection: CaseIterable {
+    case appearance
+    case about
+    
+    var title: String {
+        switch self {
+        case .appearance: return "Appearance"
+        case .about: return "About"
+        }
     }
 }

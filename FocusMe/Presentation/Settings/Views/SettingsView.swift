@@ -17,16 +17,31 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Appearance")) {
-                    Picker("App Theme", selection: $viewModel.selectedTheme) {
-                        ForEach(AppTheme.allCases) { theme in
-                            Text(theme.displayName).tag(theme)
-                        }
+                ForEach(SettingsSection.allCases, id: \.self) { section in
+                    Section(header: Text(section.title)) {
+                        sectionView(for: section)
                     }
-                    .pickerStyle(SegmentedPickerStyle())
                 }
             }
             .navigationTitle("Settings")
+        }
+    }
+    
+    @ViewBuilder
+    private func sectionView(for section: SettingsSection) -> some View {
+        switch section {
+        case .appearance:
+            Picker("App Theme", selection: $viewModel.selectedTheme) {
+                ForEach(AppTheme.allCases) { theme in
+                    Text(theme.displayName).tag(theme)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+        case .about:
+            Text("App Version: \(viewModel.appVersion)")
+            NavigationLink("Privacy Policy", destination: Text("Privacy Policy Here"))
+            NavigationLink("Contact Support", destination: Text("Support View"))
         }
     }
 }
