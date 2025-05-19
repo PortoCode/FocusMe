@@ -2,12 +2,12 @@
 
 **FocusMe** is a Swift-based reminder app using SwiftUI for UI, Combine for reactive state management, and Core Data for local persistence. It follows Clean Architecture to support modular, testable, and scalable code.
 
-## Features (MVP)
-- Create and view reminders
+## Features
+- Create, view, and manage reminders
+- Calendar integration for browsing reminders by date
 - Modular Clean Architecture (Use Cases + Repositories)
-- Mocked local data source for fast prototyping
 - SwiftUI-based user interface
-- Combine for reactive state updates
+- Reactive state management with Combine
 
 ## Tech Stack
 - Swift 5
