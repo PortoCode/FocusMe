@@ -17,7 +17,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Form {
-                ForEach(SettingsSection.allCases, id: \.self) { section in
+                ForEach(SettingsSection.allCases) { section in
                     Section(header: Text(section.displayTitle)) {
                         sectionView(for: section)
                     }

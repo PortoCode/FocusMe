@@ -24,9 +24,11 @@ final class SettingsViewModel: ObservableObject {
     }
 }
 
-enum SettingsSection: CaseIterable {
+enum SettingsSection: CaseIterable, Identifiable {
     case appearance
     case about
+    
+    var id: Self { self }
     
     var displayTitle: String {
         switch self {
