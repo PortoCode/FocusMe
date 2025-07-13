@@ -28,7 +28,7 @@ enum SettingsSection: CaseIterable {
     case appearance
     case about
     
-    var title: String {
+    var displayTitle: String {
         switch self {
         case .appearance: return "Appearance"
         case .about: return "About"
