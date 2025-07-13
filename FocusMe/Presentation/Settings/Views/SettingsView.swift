@@ -31,15 +31,31 @@ struct SettingsView: View {
     private func sectionView(for section: SettingsSection) -> some View {
         switch section {
         case .appearance:
-            Picker("App Theme", selection: $viewModel.selectedTheme) {
+            AppearanceSection(selectedTheme: $viewModel.selectedTheme)
+            
+        case .about:
+            AboutSection(appVersion: viewModel.appVersion)
+        }
+    }
+    
+    private struct AppearanceSection: View {
+        @Binding var selectedTheme: AppTheme
+        
+        var body: some View {
+            Picker("App Theme", selection: $selectedTheme) {
                 ForEach(AppTheme.allCases) { theme in
                     Text(theme.displayName).tag(theme)
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-            
-        case .about:
-            Text("App Version: \(viewModel.appVersion)")
+        }
+    }
+    
+    private struct AboutSection: View {
+        let appVersion: String
+        
+        var body: some View {
+            Text("App Version: \(appVersion)")
             NavigationLink("Privacy Policy", destination: Text("Privacy Policy Here"))
             NavigationLink("Contact Support", destination: Text("Support View"))
         }
