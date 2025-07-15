@@ -28,7 +28,9 @@ final class SettingsViewModel: ObservableObject {
     func checkNotificationStatus() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
-                self.notificationsEnabled = settings.authorizationStatus == .authorized
+                let authorized = settings.authorizationStatus == .authorized
+                self.notificationsEnabled = authorized
+                self.showNotificationAlert = !authorized && settings.authorizationStatus != .notDetermined
             }
         }
     }
@@ -37,9 +39,7 @@ final class SettingsViewModel: ObservableObject {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
             DispatchQueue.main.async {
                 self.notificationsEnabled = granted
-                if !granted {
-                    self.showNotificationAlert = true
-                }
+                self.showNotificationAlert = !granted
             }
         }
     }
