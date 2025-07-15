@@ -24,6 +24,12 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+            .onAppear {
+                viewModel.checkNotificationStatus()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+                viewModel.checkNotificationStatus()
+            }
         }
     }
     
@@ -82,9 +88,6 @@ struct SettingsView: View {
                 Text("The app requires notifications to function properly.")
                     .font(.footnote)
                     .foregroundColor(.secondary)
-            }
-            .onAppear {
-                viewModel.checkNotificationStatus()
             }
             .alert("Notifications Disabled", isPresented: $viewModel.showNotificationAlert) {
                 Button("Open Settings") {
