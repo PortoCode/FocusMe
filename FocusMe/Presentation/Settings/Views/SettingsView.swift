@@ -33,6 +33,9 @@ struct SettingsView: View {
         case .appearance:
             AppearanceSection(selectedTheme: $viewModel.selectedTheme)
             
+        case .notifications:
+            NotificationsSection(viewModel: viewModel)
+            
         case .about:
             AboutSection(appVersion: viewModel.appVersion)
         }
@@ -48,6 +51,51 @@ struct SettingsView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
+        }
+    }
+    
+    private struct NotificationsSection: View {
+        @ObservedObject var viewModel: SettingsViewModel
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 12) {
+                Toggle("Notifications Enabled", isOn: Binding<Bool>(
+                    get: { viewModel.notificationsEnabled },
+                    set: { _ in viewModel.requestNotificationPermission() }
+                ))
+                .disabled(true)
+                
+                Button {
+                    viewModel.requestNotificationPermission()
+                } label: {
+                    Label("Enable Notifications", systemImage: "bell.badge")
+                }
+                
+                Button {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                } label: {
+                    Label("Open System Settings", systemImage: "gear")
+                }
+                
+                Text("The app requires notifications to function properly.")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+            }
+            .onAppear {
+                viewModel.checkNotificationStatus()
+            }
+            .alert("Notifications Disabled", isPresented: $viewModel.showNotificationAlert) {
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Please enable notifications in system settings for the app to work correctly.")
+            }
         }
     }
     
