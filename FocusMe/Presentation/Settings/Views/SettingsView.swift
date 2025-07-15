@@ -61,3 +61,20 @@ struct SettingsView: View {
         }
     }
 }
+
+#Preview("Dark Mode") {
+    SettingsView(appSettings: {
+        let mock = AppSettings()
+        mock.selectedTheme = .dark
+        return mock
+    }())
+    .preferredColorScheme(.dark)
+}
+
+#Preview("Light Theme") {
+    SettingsView(appSettings: {
+        let mock = AppSettings()
+        mock.selectedTheme = .light
+        return mock
+    }())
+}
