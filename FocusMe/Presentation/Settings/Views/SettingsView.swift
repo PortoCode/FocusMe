@@ -108,7 +108,19 @@ struct SettingsView: View {
         var body: some View {
             Text("App Version: \(appVersion)")
             NavigationLink("Privacy Policy", destination: Text("Privacy Policy Here"))
-            NavigationLink("Contact Support", destination: Text("Support View"))
+            NavigationLink("Contact Support", destination: ContactSupportView())
+        }
+    }
+    
+    private struct ContactSupportView: View {
+        var body: some View {
+            List {
+                Section(header: Text("Contact")) {
+                    Link("LinkedIn", destination: URL(string: "https://www.linkedin.com/in/rodporto/")!)
+                    Link("GitHub", destination: URL(string: "https://github.com/portocode")!)
+                }
+            }
+            .navigationTitle("Contact Support")
         }
     }
 }
