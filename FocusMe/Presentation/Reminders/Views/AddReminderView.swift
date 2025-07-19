@@ -42,3 +42,9 @@ struct AddReminderView: View {
         }
     }
 }
+
+#Preview {
+    AddReminderView { title, description, date in
+        print("Mock Save: \(title), \(description), \(date)")
+    }
+}
