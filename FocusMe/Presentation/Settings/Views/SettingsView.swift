@@ -118,9 +118,11 @@ struct SettingsView: View {
                 Section(header: Text("Contact")) {
                     Link(destination: URL(string: "https://www.linkedin.com/in/rodporto/")!) {
                         Label("LinkedIn", systemImage: "link.circle")
+                            .accessibilityLabel("Open LinkedIn profile of Rodrigo Porto")
                     }
                     Link(destination: URL(string: "https://github.com/portocode")!) {
                         Label("GitHub", systemImage: "chevron.left.slash.chevron.right")
+                            .accessibilityLabel("Open GitHub profile of Rodrigo Porto")
                     }
                 }
             }
