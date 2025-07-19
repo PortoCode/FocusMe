@@ -18,9 +18,14 @@ struct AddReminderView: View {
         NavigationStack {
             Form {
                 TextField("Title", text: $title)
-                TextEditor(text: $description)
-                    .frame(height: 100)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+                VStack(alignment: .leading) {
+                    Text("Description")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                    TextEditor(text: $description)
+                        .frame(height: 100)
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+                }
                 DatePicker("Due Date", selection: $dueDate)
             }
             .navigationTitle("New Reminder")
