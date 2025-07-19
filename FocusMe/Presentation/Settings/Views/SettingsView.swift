@@ -116,8 +116,12 @@ struct SettingsView: View {
         var body: some View {
             List {
                 Section(header: Text("Contact")) {
-                    Link("LinkedIn", destination: URL(string: "https://www.linkedin.com/in/rodporto/")!)
-                    Link("GitHub", destination: URL(string: "https://github.com/portocode")!)
+                    Link(destination: URL(string: "https://www.linkedin.com/in/rodporto/")!) {
+                        Label("LinkedIn", systemImage: "link.circle")
+                    }
+                    Link(destination: URL(string: "https://github.com/portocode")!) {
+                        Label("GitHub", systemImage: "chevron.left.slash.chevron.right")
+                    }
                 }
             }
             .navigationTitle("Contact Support")
