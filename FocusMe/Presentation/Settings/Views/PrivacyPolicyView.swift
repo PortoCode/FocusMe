@@ -34,7 +34,8 @@ struct PrivacyPolicyView: View {
                     
                     Text("6. Contact")
                         .font(.headline)
-                    Text("If you have any questions or concerns, please contact us at rporto.dev@gmail.com.")
+                    Text("If you have any questions or concerns, please contact us at [\(ContactConstants.supportEmail)](\(ContactConstants.mailtoURL))")
+                        .font(.body)
                 }
                 .font(.body)
                 
