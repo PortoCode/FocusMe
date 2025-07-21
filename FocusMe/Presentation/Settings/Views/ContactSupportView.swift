@@ -19,6 +19,10 @@ struct ContactSupportView: View {
                     Label("GitHub", systemImage: "chevron.left.slash.chevron.right")
                         .accessibilityLabel("Open GitHub profile of Rodrigo Porto")
                 }
+                Link(destination: URL(string: "mailto:rporto.dev@gmail.com")!) {
+                    Label("Email", systemImage: "envelope")
+                        .accessibilityLabel("Send an email to Rodrigo Porto")
+                }
             }
         }
         .navigationTitle("Contact Support")
