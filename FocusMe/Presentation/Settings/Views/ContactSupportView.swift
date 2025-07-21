@@ -28,3 +28,7 @@ struct ContactSupportView: View {
         .navigationTitle("Contact Support")
     }
 }
+
+#Preview {
+    ContactSupportView()
+}
