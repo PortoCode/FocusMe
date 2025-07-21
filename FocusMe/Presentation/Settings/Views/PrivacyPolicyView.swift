@@ -11,11 +11,6 @@ struct PrivacyPolicyView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Privacy Policy")
-                    .font(.title)
-                    .bold()
-                    .padding(.bottom, 8)
-                
                 Group {
                     Text("1. Introduction")
                         .font(.headline)
