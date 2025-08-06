@@ -86,3 +86,44 @@ struct ReminderRow: View {
         isHighlighted || touchState == .pressing
     }
 }
+
+#Preview {
+    List {
+        ReminderRow(
+            reminder: Reminder(
+                id: UUID(),
+                title: "Title 1",
+                description: "",
+                date: Date(),
+                isCompleted: false
+            ),
+            isHighlighted: false,
+            onToggle: { _ in },
+            onSelect: {}
+        )
+        ReminderRow(
+            reminder: Reminder(
+                id: UUID(),
+                title: "Title 2",
+                description: "",
+                date: Date(),
+                isCompleted: false
+            ),
+            isHighlighted: true,
+            onToggle: { _ in },
+            onSelect: {}
+        )
+        ReminderRow(
+            reminder: Reminder(
+                id: UUID(),
+                title: "Title 3",
+                description: "",
+                date: Date(),
+                isCompleted: true
+            ),
+            isHighlighted: false,
+            onToggle: { _ in },
+            onSelect: {}
+        )
+    }
+}
