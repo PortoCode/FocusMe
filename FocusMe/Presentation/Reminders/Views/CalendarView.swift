@@ -71,3 +71,8 @@ struct CalendarView: View {
         return formatter.string(from: date)
     }
 }
+
+#Preview {
+    CalendarView()
+        .environmentObject(ReminderListComposer.makeViewModel())
+}
