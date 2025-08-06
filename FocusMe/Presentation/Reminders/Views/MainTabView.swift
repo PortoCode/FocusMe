@@ -41,3 +41,12 @@ struct MainTabView: View {
         .environmentObject(viewModel)
     }
 }
+
+#Preview {
+    let previewAppSettings = AppSettings()
+    let previewViewModel = ReminderListComposer.makeViewModel()
+    
+    return MainTabView()
+        .environmentObject(previewAppSettings)
+        .environmentObject(previewViewModel)
+}
