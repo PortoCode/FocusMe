@@ -71,3 +71,8 @@ struct EditReminderView: View {
         }
     }
 }
+
+#Preview {
+    let reminder = Reminder(id: UUID(), title: "Sample Reminder", description: "This is a description", date: Date(), isCompleted: false)
+    EditReminderView(reminder: reminder, onSave: { _ in }, onDelete: { _ in })
+}
