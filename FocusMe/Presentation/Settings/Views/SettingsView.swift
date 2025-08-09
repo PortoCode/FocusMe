@@ -22,6 +22,16 @@ struct SettingsView: View {
                         sectionView(for: section)
                     }
                 }
+                Section {
+                    HStack{
+                        Spacer()
+                        Text("© 2025 FocusMe Inc.")
+                            .font(.footnote)
+                            .foregroundStyle(.gray)
+                        Spacer()
+                    }
+                }
+                .listRowBackground(Color(UIColor.systemGroupedBackground))
             }
             .navigationTitle("Settings")
             .onAppear {
