@@ -22,16 +22,7 @@ struct SettingsView: View {
                         sectionView(for: section)
                     }
                 }
-                Section {
-                    HStack{
-                        Spacer()
-                        Text("© 2025 FocusMe Inc.")
-                            .font(.footnote)
-                            .foregroundStyle(.gray)
-                        Spacer()
-                    }
-                }
-                .listRowBackground(Color(UIColor.systemGroupedBackground))
+                FooterSection()
             }
             .navigationTitle("Settings")
             .onAppear {
@@ -119,6 +110,21 @@ struct SettingsView: View {
             Text("App Version: \(appVersion)")
             NavigationLink("Privacy Policy", destination: PrivacyPolicyView())
             NavigationLink("Contact Support", destination: ContactSupportView())
+        }
+    }
+    
+    private struct FooterSection: View {
+        var body: some View {
+            Section {
+                HStack{
+                    Spacer()
+                    Text("© 2025 FocusMe Inc.")
+                        .font(.footnote)
+                        .foregroundStyle(.gray)
+                    Spacer()
+                }
+            }
+            .listRowBackground(Color(UIColor.systemGroupedBackground))
         }
     }
 }
