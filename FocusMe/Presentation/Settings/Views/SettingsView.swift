@@ -116,13 +116,17 @@ struct SettingsView: View {
     private struct FooterSection: View {
         var body: some View {
             Section {
-                HStack{
-                    Spacer()
+                VStack(spacing: 8) {
+                    Image("focus-me-icon")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                    
                     Text("© 2025 FocusMe Inc.")
                         .font(.footnote)
                         .foregroundStyle(.gray)
-                    Spacer()
                 }
+                .frame(maxWidth: .infinity)
             }
             .listRowBackground(Color(UIColor.systemGroupedBackground))
         }
