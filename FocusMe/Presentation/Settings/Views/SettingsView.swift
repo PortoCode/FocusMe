@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import StoreKit
 
 struct SettingsView: View {
     @StateObject private var viewModel: SettingsViewModel
@@ -20,6 +21,16 @@ struct SettingsView: View {
                 ForEach(SettingsSection.allCases) { section in
                     Section(header: Text(section.displayTitle)) {
                         sectionView(for: section)
+                    }
+                }
+                Section {
+                    Button {
+                        let generator = UIImpactFeedbackGenerator(style: .light)
+                        generator.prepare()
+                        generator.impactOccurred()
+                        requestAppReview()
+                    } label: {
+                        Label("Rate the App", systemImage: "star.bubble")
                     }
                 }
                 FooterSection()
@@ -129,6 +140,12 @@ struct SettingsView: View {
                 .frame(maxWidth: .infinity)
             }
             .listRowBackground(Color(UIColor.systemGroupedBackground))
+        }
+    }
+    
+    private func requestAppReview() {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            AppStore.requestReview(in: scene)
         }
     }
 }
