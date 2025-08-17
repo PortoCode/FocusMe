@@ -23,16 +23,7 @@ struct SettingsView: View {
                         sectionView(for: section)
                     }
                 }
-                Section {
-                    Button {
-                        let generator = UIImpactFeedbackGenerator(style: .light)
-                        generator.prepare()
-                        generator.impactOccurred()
-                        requestAppReview()
-                    } label: {
-                        Label("Rate the App", systemImage: "star.bubble")
-                    }
-                }
+                AppReviewSection(requestAppReview: requestAppReview)
                 FooterSection()
             }
             .navigationTitle("Settings")
@@ -121,6 +112,23 @@ struct SettingsView: View {
             Text("App Version: \(appVersion)")
             NavigationLink("Privacy Policy", destination: PrivacyPolicyView())
             NavigationLink("Contact Support", destination: ContactSupportView())
+        }
+    }
+    
+    private struct AppReviewSection: View {
+        let requestAppReview: () -> Void
+        
+        var body: some View {
+            Section {
+                Button {
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.prepare()
+                    generator.impactOccurred()
+                    requestAppReview()
+                } label: {
+                    Label("Rate the App", systemImage: "star.bubble")
+                }
+            }
         }
     }
     
