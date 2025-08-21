@@ -27,6 +27,7 @@ struct AddReminderView: View {
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
                 }
                 DatePicker("Due Date", selection: $dueDate)
+                    .padding()
             }
             .navigationTitle("New Reminder")
             .toolbar {
