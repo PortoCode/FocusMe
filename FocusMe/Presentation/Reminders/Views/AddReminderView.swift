@@ -17,17 +17,19 @@ struct AddReminderView: View {
     var body: some View {
         NavigationStack {
             Form {
-                TextField("Title", text: $title)
-                VStack(alignment: .leading) {
-                    Text("Description")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                    TextEditor(text: $description)
-                        .frame(height: 100)
-                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+                Section(header: Text("Reminder Details")) {
+                    TextField("Title", text: $title)
+                    VStack(alignment: .leading) {
+                        Text("Description")
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        TextEditor(text: $description)
+                            .frame(height: 100)
+                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+                    }
+                    DatePicker("Due Date", selection: $dueDate)
+                        .padding()
                 }
-                DatePicker("Due Date", selection: $dueDate)
-                    .padding()
             }
             .navigationTitle("New Reminder")
             .toolbar {
