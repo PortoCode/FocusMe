@@ -135,6 +135,8 @@ struct SettingsView: View {
                 } label: {
                     Label("Rate the App", systemImage: "star.bubble")
                 }
+                .accessibilityLabel("Rate the app")
+                .accessibilityHint("Double tap to rate the app on the App Store.")
             }
         }
     }
