@@ -149,6 +149,7 @@ struct SettingsView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
+                        .accessibilityLabel("FocusMe app icon")
                     
                     Text("© 2025 FocusMe Inc.")
                         .font(.footnote)
