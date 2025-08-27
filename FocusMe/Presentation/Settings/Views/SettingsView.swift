@@ -81,6 +81,8 @@ struct SettingsView: View {
                 } label: {
                     Label("Enable Notifications", systemImage: "bell.badge")
                 }
+                .accessibilityLabel("Enable Notifications")
+                .accessibilityHint("Double tap to request notification permission.")
                 
                 Button {
                     if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -89,6 +91,8 @@ struct SettingsView: View {
                 } label: {
                     Label("Open System Settings", systemImage: "gear")
                 }
+                .accessibilityLabel("Open System Settings")
+                .accessibilityHint("Double tap to open iOS Settings.")
                 
                 Text("The app requires notifications to function properly.")
                     .font(.footnote)
