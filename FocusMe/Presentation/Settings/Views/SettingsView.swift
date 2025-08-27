@@ -61,6 +61,7 @@ struct SettingsView: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
+            .accessibilityLabel("Choose app theme")
         }
     }
     
