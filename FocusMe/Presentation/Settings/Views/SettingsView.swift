@@ -117,7 +117,9 @@ struct SettingsView: View {
         var body: some View {
             Text("App Version: \(appVersion)")
             NavigationLink("Privacy Policy", destination: PrivacyPolicyView())
+                .accessibilityLabel("Privacy Policy")
             NavigationLink("Contact Support", destination: ContactSupportView())
+                .accessibilityLabel("Contact Support")
         }
     }
     
