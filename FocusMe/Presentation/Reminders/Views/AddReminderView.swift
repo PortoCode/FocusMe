@@ -19,16 +19,26 @@ struct AddReminderView: View {
             Form {
                 Section(header: Text("Reminder Details")) {
                     TextField("Title", text: $title)
+                        .accessibilityLabel("Title")
+                        .accessibilityHint("Enter the title of the reminder")
+                    
                     VStack(alignment: .leading) {
                         Text("Description")
                             .font(.subheadline)
                             .foregroundColor(.gray)
+                            .accessibilityHidden(true)
+                        
                         TextEditor(text: $description)
                             .frame(height: 100)
                             .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+                            .accessibilityLabel("Description")
+                            .accessibilityHint("Enter the description of the reminder")
                     }
+                    
                     DatePicker("Due Date", selection: $dueDate)
                         .padding()
+                        .accessibilityLabel("Due Date")
+                        .accessibilityHint("Choose the due date for the reminder")
                 }
             }
             .navigationTitle("New Reminder")
@@ -39,12 +49,16 @@ struct AddReminderView: View {
                         dismiss()
                     }
                     .disabled(title.isEmpty)
+                    .accessibilityLabel("Save Reminder")
+                    .accessibilityHint("Saves the reminder and closes the form")
                 }
                 
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
                         dismiss()
                     }
+                    .accessibilityLabel("Cancel")
+                    .accessibilityHint("Dismisses the form without saving")
                 }
             }
         }
