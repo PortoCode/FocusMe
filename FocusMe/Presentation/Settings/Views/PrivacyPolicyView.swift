@@ -46,7 +46,6 @@ struct PrivacyPolicyView: View {
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
                     Text("If you have any questions or concerns, please contact us at [\(ContactConstants.supportEmail)](\(ContactConstants.mailtoURL))")
-                        .font(.body)
                         .accessibilityLabel("Contact us at \(ContactConstants.supportEmail)")
                 }
                 .font(.body)
