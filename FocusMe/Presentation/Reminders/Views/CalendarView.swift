@@ -27,6 +27,7 @@ struct CalendarView: View {
                 .onChange(of: selectedDate) {
                     if hasReminder(on: selectedDate) {
                         let generator = UIImpactFeedbackGenerator(style: .medium)
+                        generator.prepare()
                         generator.impactOccurred()
                     }
                 }
