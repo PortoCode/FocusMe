@@ -11,6 +11,12 @@ struct CalendarView: View {
     @EnvironmentObject private var viewModel: ReminderListViewModel
     @State private var selectedDate = Date()
     
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }()
+    
     var body: some View {
         VStack {
             DatePicker("Select a date", selection: $selectedDate, displayedComponents: [.date])
@@ -66,9 +72,7 @@ struct CalendarView: View {
     }
     
     private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: date)
+        Self.dateFormatter.string(from: date)
     }
 }
 
