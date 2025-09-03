@@ -23,7 +23,7 @@ struct CalendarView: View {
                     }
                 }
             
-            Text("📆 \(remindersThisWeek.count) reminders this week")
+            Text("📆 \(remindersThisWeek.count) reminder\(remindersThisWeek.count == 1 ? "" : "s") this week")
                 .font(.caption)
                 .foregroundColor(.secondary)
             
