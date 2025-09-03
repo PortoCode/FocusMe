@@ -11,6 +11,8 @@ struct CalendarView: View {
     @EnvironmentObject private var viewModel: ReminderListViewModel
     @State private var selectedDate = Date()
     
+    private let calendar = Calendar.current
+    
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -53,12 +55,11 @@ struct CalendarView: View {
     
     private var filteredReminders: [Reminder] {
         viewModel.reminders.filter {
-            Calendar.current.isDate($0.date, inSameDayAs: selectedDate)
+            calendar.isDate($0.date, inSameDayAs: selectedDate)
         }
     }
     
     private var remindersThisWeek: [Reminder] {
-        let calendar = Calendar.current
         guard let weekRange = calendar.dateInterval(of: .weekOfMonth, for: selectedDate) else {
             return []
         }
@@ -67,7 +68,7 @@ struct CalendarView: View {
     
     private func hasReminder(on date: Date) -> Bool {
         viewModel.reminders.contains {
-            Calendar.current.isDate($0.date, inSameDayAs: date)
+            calendar.isDate($0.date, inSameDayAs: date)
         }
     }
     
