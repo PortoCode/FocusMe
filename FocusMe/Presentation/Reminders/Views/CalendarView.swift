@@ -26,9 +26,7 @@ struct CalendarView: View {
                 .padding()
                 .onChange(of: selectedDate) {
                     if hasReminder(on: selectedDate) {
-                        let generator = UIImpactFeedbackGenerator(style: .medium)
-                        generator.prepare()
-                        generator.impactOccurred()
+                        HapticsManager.impact(style: .medium)
                     }
                 }
             

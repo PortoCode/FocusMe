@@ -70,7 +70,7 @@ struct ReminderListView: View {
     
     private func handleToggle(for reminder: Reminder, to newValue: Bool) {
         viewModel.setCompleted(for: reminder, to: newValue)
-        triggerHaptic()
+        HapticsManager.impact(style: .light)
     }
     
     private func handleReminderSelection(_ reminder: Reminder) {
@@ -93,12 +93,6 @@ struct ReminderListView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             sheetPresentationState.pressedReminderId = nil
         }
-    }
-    
-    private func triggerHaptic() {
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.prepare()
-        generator.impactOccurred()
     }
 }
 

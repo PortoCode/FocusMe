@@ -23,8 +23,7 @@ struct SettingsView: View {
                         sectionView(for: section)
                     }
                 }
-                AppReviewSection(triggerLightHapticFeedback: triggerLightHapticFeedback,
-                                 requestAppReview: requestAppReview)
+                AppReviewSection(requestAppReview: requestAppReview)
                 FooterSection()
             }
             .navigationTitle("Settings")
@@ -124,13 +123,12 @@ struct SettingsView: View {
     }
     
     private struct AppReviewSection: View {
-        let triggerLightHapticFeedback: () -> Void
         let requestAppReview: () -> Void
         
         var body: some View {
             Section {
                 Button {
-                    triggerLightHapticFeedback()
+                    HapticsManager.impact(style: .light)
                     requestAppReview()
                 } label: {
                     Label("Rate the App", systemImage: "star.bubble")
@@ -159,12 +157,6 @@ struct SettingsView: View {
             }
             .listRowBackground(Color(UIColor.systemGroupedBackground))
         }
-    }
-    
-    private func triggerLightHapticFeedback() {
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.prepare()
-        generator.impactOccurred()
     }
     
     private func requestAppReview() {
