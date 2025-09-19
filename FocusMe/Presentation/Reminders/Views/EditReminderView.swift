@@ -42,6 +42,7 @@ struct EditReminderView: View {
                 
                 Section {
                     Button(role: .destructive) {
+                        HapticsManager.impact(style: .heavy)
                         onDelete(reminder)
                         dismiss()
                     } label: {
@@ -57,6 +58,7 @@ struct EditReminderView: View {
                         updated.title = title
                         updated.description = description
                         updated.date = date
+                        HapticsManager.impact(style: .heavy)
                         onSave(updated)
                         dismiss()
                     }
@@ -64,6 +66,7 @@ struct EditReminderView: View {
                 }
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
+                        HapticsManager.impact(style: .light)
                         dismiss()
                     }
                 }
