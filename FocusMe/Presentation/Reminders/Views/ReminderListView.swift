@@ -77,16 +77,19 @@ struct ReminderListView: View {
         sheetPresentationState.pressedReminderId = reminder.id
         viewModel.selectedReminder = reminder
         sheetPresentationState.isPresented = true
+        HapticsManager.impact(style: .light)
     }
     
     private func handleSheetDismiss() {
         viewModel.selectedReminder = nil
         sheetPresentationState.pressedReminderId = nil
+        HapticsManager.impact(style: .light)
     }
     
     private func presentAddSheet() {
         viewModel.selectedReminder = nil
         sheetPresentationState.isPresented = true
+        HapticsManager.impact(style: .light)
     }
     
     private func scheduleHighlightRemoval() {
