@@ -39,6 +39,9 @@ struct MainTabView: View {
             }
         }
         .environmentObject(viewModel)
+        .onChange(of: selectedTab) {
+            HapticsManager.impact(style: .medium)
+        }
     }
 }
 
