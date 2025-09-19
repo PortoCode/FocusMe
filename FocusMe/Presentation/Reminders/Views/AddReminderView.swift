@@ -45,6 +45,7 @@ struct AddReminderView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
+                        HapticsManager.impact(style: .heavy)
                         onSave(title, description, dueDate)
                         dismiss()
                     }
@@ -55,6 +56,7 @@ struct AddReminderView: View {
                 
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
+                        HapticsManager.impact(style: .light)
                         dismiss()
                     }
                     .accessibilityLabel("Cancel")
