@@ -43,6 +43,7 @@ struct CalendarView: View {
                     reminder: reminder,
                     isHighlighted: false,
                     onToggle: { newValue in
+                        HapticsManager.impact(style: .light)
                         viewModel.setCompleted(for: reminder, to: newValue)
                     },
                     onSelect: {}
