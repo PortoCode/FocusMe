@@ -10,6 +10,7 @@ import SwiftUI
 struct CalendarView: View {
     @EnvironmentObject private var viewModel: ReminderListViewModel
     @State private var selectedDate = Date()
+    @State private var isEditingReminder = false
     
     private let calendar = Calendar.current
     
@@ -46,11 +47,22 @@ struct CalendarView: View {
                         HapticsManager.impact(style: .light)
                         viewModel.setCompleted(for: reminder, to: newValue)
                     },
-                    onSelect: {}
+                    onSelect: {
+                        handleReminderSelection(reminder)
+                    }
                 )
             }
         }
         .navigationTitle("Calendar")
+        .sheet(isPresented: $isEditingReminder, onDismiss: handleSheetDismiss) {
+            if let selected = viewModel.selectedReminder {
+                EditReminderView(
+                    reminder: selected,
+                    onSave: viewModel.updateReminder,
+                    onDelete: viewModel.removeReminder
+                )
+            }
+        }
     }
     
     private var filteredReminders: [Reminder] {
@@ -75,7 +87,19 @@ struct CalendarView: View {
     private func formattedDate(_ date: Date) -> String {
         Self.dateFormatter.string(from: date)
     }
+    
+    private func handleReminderSelection(_ reminder: Reminder) {
+        viewModel.selectedReminder = reminder
+        isEditingReminder = true
+        HapticsManager.impact(style: .light)
+    }
+    
+    private func handleSheetDismiss() {
+        viewModel.selectedReminder = nil
+        HapticsManager.impact(style: .light)
+    }
 }
+
 
 #Preview {
     CalendarView()
