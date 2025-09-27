@@ -44,20 +44,7 @@ struct EditReminderView: View {
             reminderForm
                 .navigationTitle("Edit Reminder")
                 .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Save") {
-                            HapticsManager.impact(style: .heavy)
-                            onSave(updatedReminder)
-                            dismiss()
-                        }
-                        .disabled(!hasChanges)
-                    }
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") {
-                            HapticsManager.impact(style: .light)
-                            dismiss()
-                        }
-                    }
+                    reminderToolbar
                 }
         }
     }
@@ -82,6 +69,24 @@ struct EditReminderView: View {
         }
     }
     
+    @ToolbarContentBuilder
+    private var reminderToolbar: some ToolbarContent {
+        ToolbarItem(placement: .confirmationAction) {
+            Button("Save") {
+                HapticsManager.impact(style: .heavy)
+                onSave(updatedReminder)
+                dismiss()
+            }
+            .disabled(!hasChanges)
+        }
+        
+        ToolbarItem(placement: .cancellationAction) {
+            Button("Cancel") {
+                HapticsManager.impact(style: .light)
+                dismiss()
+            }
+        }
+    }
 }
 
 #Preview {
