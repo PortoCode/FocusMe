@@ -41,42 +41,47 @@ struct EditReminderView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
-                TextField("Title", text: $title)
-                TextEditor(text: $description)
-                    .frame(height: 100)
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
-                DatePicker("Due Date", selection: $date)
-                
-                Section {
-                    Button(role: .destructive) {
-                        HapticsManager.impact(style: .heavy)
-                        onDelete(reminder)
-                        dismiss()
-                    } label: {
-                        Label("Delete Reminder", systemImage: "trash")
+            reminderForm
+                .navigationTitle("Edit Reminder")
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Save") {
+                            HapticsManager.impact(style: .heavy)
+                            onSave(updatedReminder)
+                            dismiss()
+                        }
+                        .disabled(!hasChanges)
+                    }
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel") {
+                            HapticsManager.impact(style: .light)
+                            dismiss()
+                        }
                     }
                 }
-            }
-            .navigationTitle("Edit Reminder")
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        HapticsManager.impact(style: .heavy)
-                        onSave(updatedReminder)
-                        dismiss()
-                    }
-                    .disabled(!hasChanges)
-                }
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        HapticsManager.impact(style: .light)
-                        dismiss()
-                    }
+        }
+    }
+    
+    private var reminderForm: some View {
+        Form {
+            TextField("Title", text: $title)
+            TextEditor(text: $description)
+                .frame(height: 100)
+                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+            DatePicker("Due Date", selection: $date)
+            
+            Section {
+                Button(role: .destructive) {
+                    HapticsManager.impact(style: .heavy)
+                    onDelete(reminder)
+                    dismiss()
+                } label: {
+                    Label("Delete Reminder", systemImage: "trash")
                 }
             }
         }
     }
+    
 }
 
 #Preview {
