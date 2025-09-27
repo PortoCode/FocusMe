@@ -31,6 +31,14 @@ struct EditReminderView: View {
         date != reminder.date
     }
     
+    private var updatedReminder: Reminder {
+        var updated = reminder
+        updated.title = title
+        updated.description = description
+        updated.date = date
+        return updated
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -54,12 +62,8 @@ struct EditReminderView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
-                        var updated = reminder
-                        updated.title = title
-                        updated.description = description
-                        updated.date = date
                         HapticsManager.impact(style: .heavy)
-                        onSave(updated)
+                        onSave(updatedReminder)
                         dismiss()
                     }
                     .disabled(!hasChanges)
