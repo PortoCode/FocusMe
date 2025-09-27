@@ -52,9 +52,24 @@ struct EditReminderView: View {
     private var reminderForm: some View {
         Form {
             TextField("Title", text: $title)
-            TextEditor(text: $description)
-                .frame(height: 100)
-                .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+            
+            ZStack(alignment: .topLeading) {
+                if description.isEmpty {
+                    Text("Description")
+                        .foregroundColor(.gray)
+                        .padding(.top, 12)
+                        .padding(.horizontal, 8)
+                }
+                TextEditor(text: $description)
+                    .frame(height: 100)
+                    .padding(4)
+                    .accessibilityLabel("Reminder Description")
+            }
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.gray.opacity(0.3))
+            )
+            
             DatePicker("Due Date", selection: $date)
             
             Section {
@@ -90,6 +105,6 @@ struct EditReminderView: View {
 }
 
 #Preview {
-    let reminder = Reminder(id: UUID(), title: "Sample Reminder", description: "This is a description", date: Date(), isCompleted: false)
+    let reminder = Reminder(id: UUID(), title: "Sample Reminder", description: "", date: Date(), isCompleted: false)
     EditReminderView(reminder: reminder, onSave: { _ in }, onDelete: { _ in })
 }
