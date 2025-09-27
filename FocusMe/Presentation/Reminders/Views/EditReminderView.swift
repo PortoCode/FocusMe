@@ -25,7 +25,7 @@ struct EditReminderView: View {
         self.onDelete = onDelete
     }
     
-    var hasChanges: Bool {
+    private var hasChanges: Bool {
         title != reminder.title ||
         description != reminder.description ||
         date != reminder.date
