@@ -18,6 +18,7 @@ struct EditReminderView: View {
     let onSave: (Reminder) -> Void
     let onDelete: (Reminder) -> Void
     
+    @MainActor
     init(reminder: Reminder, onSave: @escaping (Reminder) -> Void, onDelete: @escaping (Reminder) -> Void) {
         self.reminder = reminder
         self._title = State(initialValue: reminder.title)
