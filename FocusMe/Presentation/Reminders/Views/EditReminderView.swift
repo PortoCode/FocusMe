@@ -9,9 +9,11 @@ import SwiftUI
 
 struct EditReminderView: View {
     @Environment(\.dismiss) var dismiss
+    
     @State private var title: String
     @State private var description: String
     @State private var date: Date
+    
     let reminder: Reminder
     let onSave: (Reminder) -> Void
     let onDelete: (Reminder) -> Void
@@ -25,18 +27,18 @@ struct EditReminderView: View {
         self.onDelete = onDelete
     }
     
-    private var hasChanges: Bool {
-        title != reminder.title ||
-        description != reminder.description ||
-        date != reminder.date
-    }
-    
     private var updatedReminder: Reminder {
         var updated = reminder
         updated.title = title
         updated.description = description
         updated.date = date
         return updated
+    }
+    
+    private var hasChanges: Bool {
+        title != reminder.title ||
+        description != reminder.description ||
+        date != reminder.date
     }
     
     var body: some View {
