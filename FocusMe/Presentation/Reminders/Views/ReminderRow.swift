@@ -46,13 +46,7 @@ struct ReminderRow: View {
                             return
                         }
                         
-                        let displacement = CGSize(
-                            width: value.location.x - value.startLocation.x,
-                            height: value.location.y - value.startLocation.y
-                        )
-                        
-                        let distance = sqrt(displacement.width * displacement.width +
-                                            displacement.height * displacement.height)
+                        let distance = dragDistance(from: value.startLocation, to: value.location)
                         
                         let threshold: CGFloat = 30
                         
@@ -84,6 +78,12 @@ struct ReminderRow: View {
     
     private var shouldHighlight: Bool {
         isHighlighted || touchState == .pressing
+    }
+    
+    private func dragDistance(from start: CGPoint, to end: CGPoint) -> CGFloat {
+        let dx = end.x - start.x
+        let dy = end.y - start.y
+        return sqrt(dx * dx + dy * dy)
     }
 }
 
