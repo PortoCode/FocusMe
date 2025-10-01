@@ -27,13 +27,11 @@ struct ReminderRow: View {
                 VStack(alignment: .leading) {
                     Text(reminder.title)
                         .font(.subheadline)
-                        .strikethrough(reminder.isCompleted)
-                        .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                        .reminderStyle(isCompleted: reminder.isCompleted)
                     
                     Text(reminder.date.formattedDateTime)
                         .font(.caption)
-                        .strikethrough(reminder.isCompleted)
-                        .foregroundStyle(reminder.isCompleted ? .secondary : .primary)
+                        .reminderStyle(isCompleted: reminder.isCompleted)
                 }
                 
                 Spacer()
@@ -84,6 +82,14 @@ struct ReminderRow: View {
         let dx = end.x - start.x
         let dy = end.y - start.y
         return sqrt(dx * dx + dy * dy)
+    }
+}
+
+extension View {
+    func reminderStyle(isCompleted: Bool) -> some View {
+        self
+            .strikethrough(isCompleted)
+            .foregroundStyle(isCompleted ? .secondary : .primary)
     }
 }
 
