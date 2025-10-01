@@ -67,6 +67,7 @@ struct ReminderRow: View {
                 get: { reminder.isCompleted },
                 set: { onToggle($0) }
             ))
+            .accessibilityLabel("Mark \(reminder.title) as completed")
             .labelsHidden()
         }
         .padding(.vertical, 4)
