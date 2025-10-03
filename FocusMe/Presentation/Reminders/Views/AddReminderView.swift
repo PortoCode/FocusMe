@@ -22,18 +22,7 @@ struct AddReminderView: View {
                         .accessibilityLabel("Title")
                         .accessibilityHint("Enter the title of the reminder")
                     
-                    VStack(alignment: .leading) {
-                        Text("Description")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                            .accessibilityHidden(true)
-                        
-                        TextEditor(text: $description)
-                            .frame(height: 100)
-                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
-                            .accessibilityLabel("Description")
-                            .accessibilityHint("Enter the description of the reminder")
-                    }
+                    LabeledTextEditor(label: "Description", text: $description)
                     
                     DatePicker("Due Date", selection: $dueDate)
                         .padding()
@@ -62,6 +51,26 @@ struct AddReminderView: View {
                     .accessibilityLabel("Cancel")
                     .accessibilityHint("Dismisses the form without saving")
                 }
+            }
+        }
+    }
+    
+    struct LabeledTextEditor: View {
+        let label: String
+        @Binding var text: String
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text(label)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .accessibilityHidden(true)
+                
+                TextEditor(text: $text)
+                    .frame(height: 100)
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray.opacity(0.3)))
+                    .accessibilityLabel(label)
+                    .accessibilityHint("Enter the \(label.lowercased()) of the reminder")
             }
         }
     }
