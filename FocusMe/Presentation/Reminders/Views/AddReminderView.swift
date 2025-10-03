@@ -35,10 +35,10 @@ struct AddReminderView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         HapticsManager.impact(style: .heavy)
-                        onSave(title, description, dueDate)
+                        onSave(title.trimmingCharacters(in: .whitespacesAndNewlines), description, dueDate)
                         dismiss()
                     }
-                    .disabled(title.isEmpty)
+                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
                     .accessibilityLabel("Save Reminder")
                     .accessibilityHint("Saves the reminder and closes the form")
                 }
