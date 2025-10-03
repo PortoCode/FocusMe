@@ -14,6 +14,10 @@ struct AddReminderView: View {
     @State private var dueDate: Date = Date()
     let onSave: (String, String, Date) -> Void
     
+    private var sanitizedTitle: String {
+        title.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -35,10 +39,10 @@ struct AddReminderView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         HapticsManager.impact(style: .heavy)
-                        onSave(title.trimmingCharacters(in: .whitespacesAndNewlines), description, dueDate)
+                        onSave(sanitizedTitle, description, dueDate)
                         dismiss()
                     }
-                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(sanitizedTitle.isEmpty)
                     .accessibilityLabel("Save Reminder")
                     .accessibilityHint("Saves the reminder and closes the form")
                 }
