@@ -18,6 +18,10 @@ final class ReminderListViewModel: ObservableObject {
     private let updateReminderUseCase: UpdateReminderUseCase
     private var cancellables = Set<AnyCancellable>()
     
+    var sortedReminders: [Reminder] {
+        reminders.sorted { $0.date > $1.date }
+    }
+    
     init(fetchRemindersUseCase: FetchRemindersUseCase,
          addReminderUseCase: AddReminderUseCase,
          removeReminderUseCase: RemoveReminderUseCase,

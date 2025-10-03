@@ -28,7 +28,7 @@ struct ReminderListView: View {
     
     private var reminderList: some View {
         List {
-            ForEach(viewModel.reminders) { reminder in
+            ForEach(viewModel.sortedReminders) { reminder in
                 ReminderRow(
                     reminder: reminder,
                     isHighlighted: sheetPresentationState.pressedReminderId == reminder.id,
