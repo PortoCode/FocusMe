@@ -21,18 +21,7 @@ struct AddReminderView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Reminder Details")) {
-                    TextField("Title", text: $title)
-                        .accessibilityLabel("Title")
-                        .accessibilityHint("Enter the title of the reminder")
-                    
-                    LabeledTextEditor(label: "Description", text: $description)
-                    
-                    DatePicker("Due Date", selection: $dueDate)
-                        .padding()
-                        .accessibilityLabel("Due Date")
-                        .accessibilityHint("Choose the due date for the reminder")
-                }
+                reminderSection
             }
             .navigationTitle("New Reminder")
             .toolbar {
@@ -58,6 +47,21 @@ struct AddReminderView: View {
                     .accessibilityLabel(label)
                     .accessibilityHint("Enter the \(label.lowercased()) of the reminder")
             }
+        }
+    }
+    
+    private var reminderSection: some View {
+        Section(header: Text("Reminder Details")) {
+            TextField("Title", text: $title)
+                .accessibilityLabel("Title")
+                .accessibilityHint("Enter the title of the reminder")
+            
+            LabeledTextEditor(label: "Description", text: $description)
+            
+            DatePicker("Due Date", selection: $dueDate)
+                .padding()
+                .accessibilityLabel("Due Date")
+                .accessibilityHint("Choose the due date for the reminder")
         }
     }
     
