@@ -36,25 +36,7 @@ struct AddReminderView: View {
             }
             .navigationTitle("New Reminder")
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
-                        HapticsManager.impact(style: .heavy)
-                        onSave(sanitizedTitle, description, dueDate)
-                        dismiss()
-                    }
-                    .disabled(sanitizedTitle.isEmpty)
-                    .accessibilityLabel("Save Reminder")
-                    .accessibilityHint("Saves the reminder and closes the form")
-                }
-                
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") {
-                        HapticsManager.impact(style: .light)
-                        dismiss()
-                    }
-                    .accessibilityLabel("Cancel")
-                    .accessibilityHint("Dismisses the form without saving")
-                }
+                reminderToolbar
             }
         }
     }
@@ -76,6 +58,29 @@ struct AddReminderView: View {
                     .accessibilityLabel(label)
                     .accessibilityHint("Enter the \(label.lowercased()) of the reminder")
             }
+        }
+    }
+    
+    @ToolbarContentBuilder
+    private var reminderToolbar: some ToolbarContent {
+        ToolbarItem(placement: .confirmationAction) {
+            Button("Save") {
+                HapticsManager.impact(style: .heavy)
+                onSave(sanitizedTitle, description, dueDate)
+                dismiss()
+            }
+            .disabled(sanitizedTitle.isEmpty)
+            .accessibilityLabel("Save Reminder")
+            .accessibilityHint("Saves the reminder and closes the form")
+        }
+        
+        ToolbarItem(placement: .cancellationAction) {
+            Button("Cancel") {
+                HapticsManager.impact(style: .light)
+                dismiss()
+            }
+            .accessibilityLabel("Cancel")
+            .accessibilityHint("Dismisses the form without saving")
         }
     }
 }
