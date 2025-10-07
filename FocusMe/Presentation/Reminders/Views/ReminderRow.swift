@@ -24,15 +24,7 @@ struct ReminderRow: View {
     var body: some View {
         HStack {
             HStack {
-                VStack(alignment: .leading) {
-                    Text(reminder.title)
-                        .font(.subheadline)
-                        .reminderStyle(isCompleted: reminder.isCompleted)
-                    
-                    Text(reminder.date.formattedDateTime)
-                        .font(.caption)
-                        .reminderStyle(isCompleted: reminder.isCompleted)
-                }
+                ReminderInfoView(reminder: reminder)
                 
                 Spacer()
             }
@@ -72,6 +64,22 @@ struct ReminderRow: View {
         .padding(.vertical, 4)
         .listRowBackground(shouldHighlight ? Color.gray.opacity(0.2) : nil)
         .animation(.easeOut(duration: 0.1), value: shouldHighlight)
+    }
+    
+    private struct ReminderInfoView: View {
+        let reminder: Reminder
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                Text(reminder.title)
+                    .font(.subheadline)
+                    .reminderStyle(isCompleted: reminder.isCompleted)
+                
+                Text(reminder.date.formattedDateTime)
+                    .font(.caption)
+                    .reminderStyle(isCompleted: reminder.isCompleted)
+            }
+        }
     }
     
     private struct CompletionToggle: View {
