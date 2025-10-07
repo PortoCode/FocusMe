@@ -25,7 +25,6 @@ struct ReminderRow: View {
         HStack {
             HStack {
                 ReminderInfoView(reminder: reminder)
-                
                 Spacer()
             }
             .contentShape(Rectangle())
