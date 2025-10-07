@@ -63,16 +63,30 @@ struct ReminderRow: View {
                     }
             )
             
-            Toggle("", isOn: Binding(
-                get: { reminder.isCompleted },
-                set: { onToggle($0) }
-            ))
-            .accessibilityLabel("Mark \(reminder.title) as completed")
-            .labelsHidden()
+            CompletionToggle(
+                title: reminder.title,
+                isCompleted: reminder.isCompleted,
+                onToggle: onToggle
+            )
         }
         .padding(.vertical, 4)
         .listRowBackground(shouldHighlight ? Color.gray.opacity(0.2) : nil)
         .animation(.easeOut(duration: 0.1), value: shouldHighlight)
+    }
+    
+    private struct CompletionToggle: View {
+        let title: String
+        let isCompleted: Bool
+        let onToggle: (Bool) -> Void
+        
+        var body: some View {
+            Toggle("", isOn: Binding(
+                get: { isCompleted },
+                set: { onToggle($0) }
+            ))
+            .accessibilityLabel("Mark \(title) as completed")
+            .labelsHidden()
+        }
     }
     
     private var shouldHighlight: Bool {
