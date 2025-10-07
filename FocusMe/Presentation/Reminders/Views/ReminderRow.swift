@@ -19,6 +19,8 @@ struct ReminderRow: View {
         case draggedOutside
     }
     
+    private let threshold: CGFloat = 30
+    
     @State private var touchState: TouchState = .idle
     
     var body: some View {
@@ -31,25 +33,15 @@ struct ReminderRow: View {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
-                        if touchState == .draggedOutside {
-                            return
-                        }
-                        
-                        let distance = dragDistance(from: value.startLocation, to: value.location)
-                        
-                        let threshold: CGFloat = 30
-                        
-                        if distance > threshold {
-                            touchState = .draggedOutside
-                        } else {
-                            touchState = .pressing
+                        if touchState != .draggedOutside {
+                            let distance = dragDistance(from: value.startLocation, to: value.location)
+                            touchState = distance > threshold ? .draggedOutside : .pressing
                         }
                     }
                     .onEnded { _ in
                         if touchState == .pressing {
                             onSelect()
                         }
-                        
                         touchState = .idle
                     }
             )
