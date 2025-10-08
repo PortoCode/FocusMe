@@ -26,13 +26,13 @@ struct ReminderRow: View {
     var body: some View {
         HStack {
             HStack {
-                ReminderInfoView(reminder: reminder)
+                ReminderDetailsView(reminder: reminder)
                 Spacer()
             }
             .contentShape(Rectangle())
             .gesture(dragToSelectGesture())
             
-            CompletionToggle(
+            ReminderCompletionToggle(
                 title: reminder.title,
                 isCompleted: reminder.isCompleted,
                 onToggle: onToggle
@@ -43,7 +43,7 @@ struct ReminderRow: View {
         .animation(.easeOut(duration: 0.1), value: shouldHighlight)
     }
     
-    private struct ReminderInfoView: View {
+    private struct ReminderDetailsView: View {
         let reminder: Reminder
         
         var body: some View {
@@ -59,7 +59,7 @@ struct ReminderRow: View {
         }
     }
     
-    private struct CompletionToggle: View {
+    private struct ReminderCompletionToggle: View {
         let title: String
         let isCompleted: Bool
         let onToggle: (Bool) -> Void
