@@ -30,21 +30,7 @@ struct ReminderRow: View {
                 Spacer()
             }
             .contentShape(Rectangle())
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        if touchState != .draggedOutside {
-                            let distance = dragDistance(from: value.startLocation, to: value.location)
-                            touchState = distance > threshold ? .draggedOutside : .pressing
-                        }
-                    }
-                    .onEnded { _ in
-                        if touchState == .pressing {
-                            onSelect()
-                        }
-                        touchState = .idle
-                    }
-            )
+            .gesture(dragToSelectGesture())
             
             CompletionToggle(
                 title: reminder.title,
@@ -90,6 +76,22 @@ struct ReminderRow: View {
     
     private var shouldHighlight: Bool {
         isHighlighted || touchState == .pressing
+    }
+    
+    private func dragToSelectGesture() -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                if touchState != .draggedOutside {
+                    let distance = dragDistance(from: value.startLocation, to: value.location)
+                    touchState = distance > threshold ? .draggedOutside : .pressing
+                }
+            }
+            .onEnded { _ in
+                if touchState == .pressing {
+                    onSelect()
+                }
+                touchState = .idle
+            }
     }
     
     private func dragDistance(from start: CGPoint, to end: CGPoint) -> CGFloat {
