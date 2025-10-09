@@ -30,7 +30,7 @@ struct ReminderRow: View {
                 Spacer()
             }
             .contentShape(Rectangle())
-            .gesture(dragToSelectGesture())
+            .gesture(tapOrDragGesture())
             
             ReminderCompletionToggle(
                 title: reminder.title,
@@ -78,7 +78,7 @@ struct ReminderRow: View {
         isHighlighted || touchState == .pressing
     }
     
-    private func dragToSelectGesture() -> some Gesture {
+    private func tapOrDragGesture() -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 if touchState != .draggedOutside {
