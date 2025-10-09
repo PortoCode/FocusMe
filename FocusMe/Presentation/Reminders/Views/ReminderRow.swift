@@ -82,7 +82,7 @@ struct ReminderRow: View {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 if touchState != .draggedOutside {
-                    let distance = dragDistance(from: value.startLocation, to: value.location)
+                    let distance = value.startLocation.distance(to: value.location)
                     touchState = distance > threshold ? .draggedOutside : .pressing
                 }
             }
@@ -92,12 +92,6 @@ struct ReminderRow: View {
                 }
                 touchState = .idle
             }
-    }
-    
-    private func dragDistance(from start: CGPoint, to end: CGPoint) -> CGFloat {
-        let dx = end.x - start.x
-        let dy = end.y - start.y
-        return sqrt(dx * dx + dy * dy)
     }
 }
 
