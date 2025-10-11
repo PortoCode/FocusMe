@@ -61,6 +61,7 @@ struct SettingsView: View {
             }
             .pickerStyle(SegmentedPickerStyle())
             .accessibilityLabel("Choose app theme")
+            .accessibilityHint("Swipe left or right to change the app theme.")
         }
     }
     
