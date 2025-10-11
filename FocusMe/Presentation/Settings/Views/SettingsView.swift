@@ -95,7 +95,7 @@ struct SettingsView: View {
                 
                 Text("The app requires notifications to function properly.")
                     .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
             .alert("Notifications Disabled", isPresented: $viewModel.showNotificationAlert) {
                 Button("Open Settings") {
