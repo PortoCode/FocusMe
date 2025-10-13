@@ -50,12 +50,10 @@ struct SettingsView: View {
         }
     }
     
-    @ViewBuilder
     private var appReviewSection: some View {
         AppReviewSection(requestAppReview: requestAppReview)
     }
     
-    @ViewBuilder
     private var footerSection: some View {
         FooterSection()
     }
