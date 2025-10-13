@@ -23,8 +23,8 @@ struct SettingsView: View {
                         sectionView(for: section)
                     }
                 }
-                AppReviewSection(requestAppReview: requestAppReview)
-                FooterSection()
+                appReviewSection
+                footerSection
             }
             .navigationTitle("Settings")
             .onAppear {
@@ -48,6 +48,16 @@ struct SettingsView: View {
         case .about:
             AboutSection(appVersion: viewModel.appVersion)
         }
+    }
+    
+    @ViewBuilder
+    private var appReviewSection: some View {
+        AppReviewSection(requestAppReview: requestAppReview)
+    }
+    
+    @ViewBuilder
+    private var footerSection: some View {
+        FooterSection()
     }
     
     private struct AppearanceSection: View {
