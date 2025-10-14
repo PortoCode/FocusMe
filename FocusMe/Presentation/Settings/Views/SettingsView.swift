@@ -93,9 +93,8 @@ struct SettingsView: View {
                 .accessibilityHint("Double tap to request notification permission.")
                 
                 Button {
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url)
-                    }
+                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                    UIApplication.shared.open(url)
                 } label: {
                     Label("Open System Settings", systemImage: "gear")
                 }
@@ -108,9 +107,8 @@ struct SettingsView: View {
             }
             .alert("Notifications Disabled", isPresented: $viewModel.showNotificationAlert) {
                 Button("Open Settings") {
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        UIApplication.shared.open(url)
-                    }
+                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                    UIApplication.shared.open(url)
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
