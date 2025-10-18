@@ -23,6 +23,7 @@ struct CalendarView: View {
     var body: some View {
         VStack {
             DatePicker("Select a date", selection: $selectedDate, displayedComponents: [.date])
+                .accessibilityLabel("Date Picker")
                 .datePickerStyle(.graphical)
                 .padding()
                 .onChange(of: selectedDate) {
