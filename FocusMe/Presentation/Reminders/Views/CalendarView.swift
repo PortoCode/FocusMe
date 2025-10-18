@@ -53,6 +53,7 @@ struct CalendarView: View {
                     }
                 )
             }
+            .animation(.default, value: filteredReminders)
         }
         .navigationTitle("Calendar")
         .sheet(isPresented: $isEditingReminder, onDismiss: handleSheetDismiss) {
